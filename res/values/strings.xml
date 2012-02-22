@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <string name="app_name">MainActivity</string>
+  <string name="hello_world">Sup bro this is a Hello World thing and stuff</string>
+</resources>

@@ -4,10 +4,24 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     >
-<TextView
-    android:layout_width="fill_parent"
-    android:layout_height="wrap_content"
-    android:text="@string/hello_world"
-    />
+    
+    <TextView
+        android:id="@+id/main_text"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/hello_world" />
+    
+    <Button
+        android:id="@+id/json_button"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/get_json_name" />
+        
+     <TextView
+         android:id="@+id/json_result"
+         android:layout_width="fill_parent"
+         android:layout_height="wrap_content"
+         android:text="" />
+    
 </LinearLayout>
 

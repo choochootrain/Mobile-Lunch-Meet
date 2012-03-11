@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
   <string name="app_name">MainActivity</string>
-  <string name="hello_world">Sup bro this is a Hello World thing and stuff</string>
+  <string name="hello_world">Sup bro this is a Hello World thing and stuff put da GPS \'n\' map shit right hurr</string>
+  <string name="about_name">About</string>
+  <string name="about_text">K so this is where we put the about stuff and stuff.</string>
+  <string name="get_json_name">Get JSON Data</string>
 </resources>

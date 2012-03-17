@@ -5,4 +5,5 @@
   <string name="about_name">About</string>
   <string name="about_text">K so this is where we put the about stuff and stuff.</string>
   <string name="get_json_name">Get JSON Data</string>
+  <string name="gps_name">GPS Location</string>
 </resources>

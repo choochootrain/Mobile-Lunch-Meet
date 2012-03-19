@@ -3,14 +3,16 @@ class UsersController < ApplicationController
   def show
     @user = User.find(params[:id])
     @loc = @user.location
- 
+    @lat = Float(params[:lat])
+    @long = Float(params[:long])
+
     if(@loc.nil?)
-      @loc = Location.new(params[:location])
+      @loc = Location.new(:lat => @lat, :long => @long)
       @loc.user_id = @user.id
       @user.location = @loc
     else
       Location.destroy(@loc.id)
-      @newLoc = Location.new(params[:location])
+      @newLoc = Location.new(:lat => @lat, :long => @long)
       @newLoc.user_id = @user.id
       @user.location = @newLoc
     end

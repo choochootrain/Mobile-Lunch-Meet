@@ -10,11 +10,11 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120317225530) do
+ActiveRecord::Schema.define(:version => 20120319062028) do
 
   create_table "locations", :force => true do |t|
-    t.integer  "long"
-    t.integer  "lat"
+    t.float    "lat"
+    t.float    "long"
     t.integer  "user_id"
     t.datetime "created_at"
     t.datetime "updated_at"

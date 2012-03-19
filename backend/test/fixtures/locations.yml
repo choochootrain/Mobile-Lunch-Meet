@@ -1,11 +1,11 @@
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
 
 one:
-  long: 1
-  lat: 1
+  lat: 1.5
+  long: 1.5
   user: 
 
 two:
-  long: 1
-  lat: 1
+  lat: 1.5
+  long: 1.5
   user: 

@@ -4,7 +4,7 @@ Lunch::Application.routes.draw do
   match "register" => "users#create"
   match "showusers" => "users#showusers"
   match "showlocations" => "users#showlocations"
-  match "sendlocation/:id/:lat/:long/" => "users#show", :constraints => {:lat => /\-?\d+\.\d+/, :long => /\-?\d+\.\d+/} 
+  match "sendlocation/:id/:lat/:long" => "users#show", :constraints => {:lat => /\-?\d+\.\d+/, :long => /\-?\d+\.\d+/} 
   match "removeuser/:id" => "users#destroy"
 
   # The priority is based upon order of creation:

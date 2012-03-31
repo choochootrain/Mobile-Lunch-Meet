@@ -49,11 +49,9 @@ public class MainActivity extends Activity
     }
 
     private void getData() {
-        int id = Server.register("A Test", 15);
-        Server.sendLocation(id, 10.1, 10.2);
-        jsonResult.setText("" + id);
+        Server.sendLocation(17, 42.6, -65.84);
         JSONArray a = Server.showLocations();
-        Toast.makeText(this, "" + a, Toast.LENGTH_LONG).show();
+        jsonResult.setText((CharSequence) a.toString());
     }
 
     @Override

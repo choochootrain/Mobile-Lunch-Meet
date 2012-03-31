@@ -1,5 +1,6 @@
 package com.cellphones.mobilelunchmeet;
 
+import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.HttpResponseException;
@@ -81,7 +82,7 @@ public class Server {
             HttpClient client = new DefaultHttpClient();
             HttpGet request = new HttpGet();
             request.setURI(new URI("http://vivid-ocean-9711.heroku.com/sendlocation/" + id + "/" + latitude + "/" + longitude + ".json"));
-            String content = client.execute(request, new BasicResponseHandler());
+            client.execute(request);
         } catch (Exception e) {
             e.printStackTrace();
         }

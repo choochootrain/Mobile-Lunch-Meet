@@ -81,7 +81,7 @@ public class Server {
         try {
             HttpClient client = new DefaultHttpClient();
             HttpGet request = new HttpGet();
-            request.setURI(new URI("http://vivid-ocean-9711.heroku.com/sendlocation/" + id + "/" + latitude + "/" + longitude + ".json"));
+            request.setURI(new URI("http://vivid-ocean-9711.heroku.com/sendlocation/" + id + "/" + latitude + "/" + longitude));
             client.execute(request);
         } catch (Exception e) {
             e.printStackTrace();

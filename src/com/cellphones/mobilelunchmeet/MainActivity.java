@@ -49,7 +49,7 @@ public class MainActivity extends Activity
     }
 
     private void getData() {
-        Server.sendLocation(17, 42.6, -65.84);
+        Server.sendLocation(24, 123.456, 789.123);
         JSONArray a = Server.showLocations();
         jsonResult.setText((CharSequence) a.toString());
     }

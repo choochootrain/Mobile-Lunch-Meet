@@ -8,6 +8,7 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Toast;
 import com.google.android.maps.*;
 import org.json.JSONArray;
@@ -21,11 +22,11 @@ public class GPSActivity extends MapActivity {
     private MyLocationOverlay myLocationOverlay;
     private Location previous;
     private int id;
-    private boolean locationSent;
     private boolean locationCentered;
     
     public static final String PREFS_NAME = "PrefsFile";
-
+    public static final String TAG = "GPSActivity";
+    
     public void onCreate(Bundle bundle) {
         super.onCreate(bundle);
         setContentView(R.layout.map);
@@ -43,15 +44,24 @@ public class GPSActivity extends MapActivity {
         myLocationOverlay = new MyLocationOverlay(this, mapView);
         mapView.getOverlays().add(myLocationOverlay);
         myLocationOverlay.enableMyLocation();
+        myLocationOverlay.runOnFirstFix(new Runnable() {
+            @Override
+            public void run() {
+                Location me = myLocationOverlay.getLastFix();
+                mapController.animateTo(myLocationOverlay.getMyLocation());
+                Server.sendLocation(id, me.getLatitude(), me.getLongitude());
+                getLocations(Server.showLocations());
+            }
+        });
 
         //AsyncTaskify this
         SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
         id = settings.getInt("id", -1);
         if (id < 0) {
             id = Server.register("Test User", 2);
-            Toast.makeText(this, "New user id: " + id, Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "New user registered: " + id, Toast.LENGTH_SHORT).show();
         } else {
-            Toast.makeText(this, "Old user id: " + id, Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Old user logged in: " + id, Toast.LENGTH_SHORT).show();
         }
         SharedPreferences.Editor editor = settings.edit();
         editor.putInt("id", id);
@@ -60,8 +70,6 @@ public class GPSActivity extends MapActivity {
 
         Drawable drawable = this.getResources().getDrawable(R.drawable.point);
         itemizedoverlay = new Overlays(this, drawable, id);
-
-        getLocations(Server.showLocations());
     }
 
     @Override
@@ -73,13 +81,12 @@ public class GPSActivity extends MapActivity {
 
         @Override
         public void onLocationChanged(Location location) {
-            int lat = (int) (1E6 * location.getLatitude());
-            int lng = (int) (1E6 * location.getLongitude());
-            if(!location.equals(previous) || !locationSent) {
-                Server.sendLocation(id, lat, lng);
+            double lat = location.getLatitude();
+            double lng = location.getLongitude();
+            Server.sendLocation(id, lat, lng);
+            if(!location.equals(previous)) {
                 previous = location;
                 getLocations(Server.showLocations());
-                locationSent = true;
             }
         }
 
@@ -103,8 +110,10 @@ public class GPSActivity extends MapActivity {
                 JSONObject item = (JSONObject) locations.get(i);
                 JSONObject location = (JSONObject) item.get("location");
                 int loc_id = location.getInt("user_id");
-                double lat = location.getLong("lat");
-                double lon = location.getLong("long");
+                double lat = location.getDouble("lat");
+                double lon = location.getDouble("long");
+                Log.e(TAG, "##########" + lat + " " + (int)(1E6 * lat));
+                Log.e(TAG, "##########" + lon + " " + (int)(1E6 * lon));
                 GeoPoint p = new GeoPoint((int)(1E6 * lat), (int)(1E6 * lon));
                 OverlayItem overlayItem;
                 if (loc_id != id)

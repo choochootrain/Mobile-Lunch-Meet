@@ -16,12 +16,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f3e957ee-5175-455a-b981-57655203d950" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/drawable-ldpi/point.png" afterPath="$PROJECT_DIR$/res/drawable-ldpi/point.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/AndroidManifest.xml" afterPath="$PROJECT_DIR$/AndroidManifest.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/cellphones/mobilelunchmeet/GPSActivity.java" afterPath="$PROJECT_DIR$/src/com/cellphones/mobilelunchmeet/GPSActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/cellphones/mobilelunchmeet/MainActivity.java" afterPath="$PROJECT_DIR$/src/com/cellphones/mobilelunchmeet/MainActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/cellphones/mobilelunchmeet/Server.java" afterPath="$PROJECT_DIR$/src/com/cellphones/mobilelunchmeet/Server.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/cellphones/mobilelunchmeet/Overlays.java" afterPath="$PROJECT_DIR$/src/com/cellphones/mobilelunchmeet/Overlays.java" />
     </list>
     <ignored path="mobileLunchMeet.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -109,7 +105,7 @@
               <file leaf-file-name="Overlays.java" pinned="false" current="false" current-in-tab="true">
                 <entry file="file://$PROJECT_DIR$/src/com/cellphones/mobilelunchmeet/Overlays.java">
                   <provider selected="true" editor-type-id="text-editor">
-                    <state line="90" column="70" selection-start="3077" selection-end="3077" vertical-scroll-proportion="2.0847456">
+                    <state line="102" column="49" selection-start="3794" selection-end="3794" vertical-scroll-proportion="1.1423728">
                       <folding />
                     </state>
                   </provider>
@@ -122,7 +118,7 @@
               <file leaf-file-name="GPSActivity.java" pinned="false" current="true" current-in-tab="true">
                 <entry file="file://$PROJECT_DIR$/src/com/cellphones/mobilelunchmeet/GPSActivity.java">
                   <provider selected="true" editor-type-id="text-editor">
-                    <state line="108" column="39" selection-start="3782" selection-end="3782" vertical-scroll-proportion="0.38135594">
+                    <state line="54" column="62" selection-start="2070" selection-end="2070" vertical-scroll-proportion="0.4864407">
                       <folding />
                     </state>
                   </provider>
@@ -171,10 +167,10 @@
         <option value="$PROJECT_DIR$/gen/com/cellphones/mobilelunchmeet/R.java" />
         <option value="$PROJECT_DIR$/res/values/strings.xml" />
         <option value="$PROJECT_DIR$/res/layout/map.xml" />
-        <option value="$PROJECT_DIR$/src/com/cellphones/mobilelunchmeet/Overlays.java" />
         <option value="$PROJECT_DIR$/src/com/cellphones/mobilelunchmeet/Server.java" />
         <option value="$PROJECT_DIR$/src/com/cellphones/mobilelunchmeet/MainActivity.java" />
         <option value="$PROJECT_DIR$/AndroidManifest.xml" />
+        <option value="$PROJECT_DIR$/src/com/cellphones/mobilelunchmeet/Overlays.java" />
         <option value="$PROJECT_DIR$/src/com/cellphones/mobilelunchmeet/GPSActivity.java" />
       </list>
     </option>
@@ -678,14 +674,14 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/cellphones/mobilelunchmeet/Overlays.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="90" column="70" selection-start="3077" selection-end="3077" vertical-scroll-proportion="2.0847456">
+        <state line="102" column="49" selection-start="3794" selection-end="3794" vertical-scroll-proportion="1.1423728">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/cellphones/mobilelunchmeet/GPSActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="108" column="39" selection-start="3782" selection-end="3782" vertical-scroll-proportion="0.38135594">
+        <state line="54" column="62" selection-start="2070" selection-end="2070" vertical-scroll-proportion="0.4864407">
           <folding />
         </state>
       </provider>

@@ -50,7 +50,6 @@ public class GPSActivity extends MapActivity {
                 Location me = myLocationOverlay.getLastFix();
                 mapController.animateTo(myLocationOverlay.getMyLocation());
                 Server.sendLocation(id, me.getLatitude(), me.getLongitude());
-                getLocations(Server.showLocations());
             }
         });
 
@@ -69,7 +68,9 @@ public class GPSActivity extends MapActivity {
 
 
         Drawable drawable = this.getResources().getDrawable(R.drawable.point);
-        itemizedoverlay = new Overlays(this, drawable, id);
+        itemizedoverlay = new Overlays(this, drawable, id, myLocationOverlay);
+
+        getLocations(Server.showLocations());
     }
 
     @Override

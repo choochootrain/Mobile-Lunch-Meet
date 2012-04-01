@@ -1,11 +1,20 @@
 Lunch::Application.routes.draw do
   resources :users
  
-  match "register" => "users#create"
+  match "register/:name/:year" => "users#create"
+
   match "showusers" => "users#showusers"
   match "showlocations" => "users#showlocations"
-  match "sendlocation/:id/:lat/:long/" => "users#show", :constraints => {:lat => /\-?\d+\.\d+/, :long => /\-?\d+\.\d+/} 
-  match "removeuser/:id" => "users#destroy"
+
+  match "sendlocation/:id/:lat/:long/" => "users#sendloc", :constraints => {:lat => /\-?\d+\.\d+/, :long => /\-?\d+\.\d+/} 
+
+  match "removeuser/:id" => "users#destroyuser"
+  match "removelocation/:id" => "users#destroyloc"
+ 
+  match "getuser/:id" => "users#getuser"
+  match "getlocation/:id" => "users#getloc"
+
+  match "match/:id" => "users#match"
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

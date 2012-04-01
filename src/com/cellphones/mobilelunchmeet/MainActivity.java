@@ -2,6 +2,7 @@ package com.cellphones.mobilelunchmeet;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.location.Location;
 import android.os.Bundle;
 import android.text.Html;
 import android.view.Menu;
@@ -10,6 +11,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
@@ -47,23 +49,9 @@ public class MainActivity extends Activity
     }
 
     private void getData() {
-        //PUT CALL TO SERVER HERE
-        try {
-            HttpClient client = new DefaultHttpClient();
-            HttpGet request = new HttpGet();
-            request.setURI(new URI("http://search.twitter.com/search.json?q=lolwut"));
-            String content = client.execute(request, new BasicResponseHandler());
-            JSONObject response = new JSONObject(content);
-            JSONArray data = response.getJSONArray("results");
-            String result = "";
-            for(int i = 0 ; i < data.length(); i++) {
-                JSONObject item = data.getJSONObject(i);
-                result += "<b>" + item.get("from_user") + ":</b> " + item.get("text") + "<br />";
-            }
-            jsonResult.setText(Html.fromHtml(result));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        Server.sendLocation(24, 123.456, 789.123);
+        JSONArray a = Server.showLocations();
+        jsonResult.setText((CharSequence) a.toString());
     }
 
     @Override

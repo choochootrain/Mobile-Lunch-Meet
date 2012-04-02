@@ -95,14 +95,16 @@ public class Overlays extends ItemizedOverlay<OverlayItem> {
                 int loc_id = location.getInt("user_id");
                 double end_lat = location.getDouble("lat");
                 double end_long = location.getDouble("long");
-                double lat = locationOverlay.getLastFix().getLatitude();
-                double lon = locationOverlay.getLastFix().getLongitude();
                 Toast.makeText(context, "You are matched to " + loc_id, Toast.LENGTH_LONG).show();
-                Intent intent = new Intent(Intent.ACTION_VIEW,
+                if (locationOverlay.getLastFix() != null) {
+                    double lat = locationOverlay.getLastFix().getLatitude();
+                    double lon = locationOverlay.getLastFix().getLongitude();
+                    Intent intent = new Intent(Intent.ACTION_VIEW,
                         Uri.parse("http://maps.google.com/maps?saddr=" +
                         lat + "," + lon +"&daddr=" +
                         end_lat + "," + end_long));
-                context.startActivity(intent);
+                    context.startActivity(intent);
+                }
             } catch (JSONException e) {
                 e.printStackTrace();
                 Toast.makeText(context, "Brb something broke.", Toast.LENGTH_LONG).show();

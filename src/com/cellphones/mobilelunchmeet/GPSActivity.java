@@ -1,6 +1,7 @@
 package com.cellphones.mobilelunchmeet;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.location.Location;
@@ -9,6 +10,9 @@ import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.widget.Toast;
 import com.google.android.maps.*;
 import org.json.JSONArray;
@@ -24,13 +28,15 @@ public class GPSActivity extends MapActivity {
     private int id;
     private boolean locationCentered;
     
+   
     public static final String PREFS_NAME = "PrefsFile";
     public static final String TAG = "GPSActivity";
     
     public void onCreate(Bundle bundle) {
         super.onCreate(bundle);
+        
         setContentView(R.layout.map);
-
+        
         mapView = (MapView) findViewById(R.id.map);
         mapView.setBuiltInZoomControls(true);
         mapController = mapView.getController();
@@ -45,7 +51,7 @@ public class GPSActivity extends MapActivity {
         mapView.getOverlays().add(myLocationOverlay);
         myLocationOverlay.enableMyLocation();
         myLocationOverlay.runOnFirstFix(new Runnable() {
-            @Override
+            //@Override
             public void run() {
                 Location me = myLocationOverlay.getLastFix();
                 mapController.animateTo(myLocationOverlay.getMyLocation());
@@ -80,7 +86,7 @@ public class GPSActivity extends MapActivity {
 
     public class GeoUpdateHandler implements LocationListener {
 
-        @Override
+        //@Override
         public void onLocationChanged(Location location) {
             double lat = location.getLatitude();
             double lng = location.getLongitude();
@@ -91,15 +97,15 @@ public class GPSActivity extends MapActivity {
             }
         }
 
-        @Override
+        //@Override
         public void onProviderDisabled(String provider) {
         }
 
-        @Override
+        //@Override
         public void onProviderEnabled(String provider) {
         }
 
-        @Override
+        //@Override
         public void onStatusChanged(String provider, int status, Bundle extras) {
         }
     }
@@ -168,5 +174,31 @@ public class GPSActivity extends MapActivity {
         super.onResume();
         myLocationOverlay.disableMyLocation();
         myLocationOverlay.disableCompass();
+    }
+    
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+			case R.id.quit_button:
+				super.finish();
+				//getParent().finish();
+				return true;
+			case R.id.about:
+                startActivity(new Intent(this, AboutActivity.class));
+                return true;
+			case R.id.logout_button:
+				// switch to login screen
+				super.finish();
+				return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 }

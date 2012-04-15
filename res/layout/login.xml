@@ -28,8 +28,8 @@
         android:id="@+id/login_input"
         android:layout_width="180dp"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/password_text"
-        android:layout_marginLeft="27dp"
+        android:layout_alignBottom="@+id/login_text"
+        android:layout_marginLeft="15dp"
         android:layout_toRightOf="@+id/login_text"
         android:inputType="text">"
         <requestFocus />
@@ -41,6 +41,7 @@
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/login_input"
         android:layout_alignTop="@+id/password_text"
+        android:layout_below="@+id/login_input"
         android:inputType="textPassword" />
     <Button
         android:id="@+id/login_button"

@@ -56,7 +56,7 @@ public class MainActivity extends Activity
         
 setContentView(R.layout.splash);
         
-/*
+
         Thread splash_thread = new Thread() {
         	@Override
         	public void run(){
@@ -76,9 +76,9 @@ setContentView(R.layout.splash);
         	}
         };
         splash_thread.start();
-        */
+        
         //inflater = (LayoutInflater)getSystemService(LAYOUT_INFLATER_SERVICE);
-		startup();
+		//startup();
     }
 
     private void getData() {

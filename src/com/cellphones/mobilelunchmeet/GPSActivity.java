@@ -13,10 +13,18 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.Toast;
 import com.google.android.maps.*;
 import org.json.JSONArray;
 import org.json.JSONObject;
+
+import android.util.Log;
+import android.widget.EditText;
+import android.view.ViewGroup;
+import android.view.LayoutInflater;
+import android.view.View;
 
 public class GPSActivity extends MapActivity {
     private MapController mapController;
@@ -28,20 +36,42 @@ public class GPSActivity extends MapActivity {
     private int id;
     private boolean locationCentered;
     
-   
+    private View loginView;
+    private View splashView;
+    private LayoutInflater inflater;
+    
+    private EditText loginText;
+    private EditText passwordText;
+    private Button loginButton;
+    private Button accountButton;
+    
     public static final String PREFS_NAME = "PrefsFile";
     public static final String TAG = "GPSActivity";
+    
+    private static final int splash_window = 5000;
+    
     
     public void onCreate(Bundle bundle) {
         super.onCreate(bundle);
         
+        //setContentView(R.layout.login);
         setContentView(R.layout.map);
+        
+        inflater = getLayoutInflater();
+        loginView = inflater.inflate(R.layout.login, null);
+        addContentView(loginView, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.FILL_PARENT));
+        initLoginView();
+        //loginView.setVisibility(View.INVISIBLE);
+        
+        //runSplashThread();
         
         mapView = (MapView) findViewById(R.id.map);
         mapView.setBuiltInZoomControls(true);
         mapController = mapView.getController();
         mapController.setZoom(17);
 
+        mapView.setVisibility(View.INVISIBLE);
+        
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 15000,
                 10, (LocationListener) new GeoUpdateHandler());
@@ -83,7 +113,7 @@ public class GPSActivity extends MapActivity {
     protected boolean isRouteDisplayed() {
         return false;
     }
-
+    
     public class GeoUpdateHandler implements LocationListener {
 
         //@Override
@@ -188,17 +218,100 @@ public class GPSActivity extends MapActivity {
         switch (item.getItemId()) {
 			case R.id.quit_button:
 				super.finish();
-				//getParent().finish();
 				return true;
 			case R.id.about:
                 startActivity(new Intent(this, AboutActivity.class));
                 return true;
 			case R.id.logout_button:
 				// switch to login screen
-				super.finish();
+				//super.finish();
+				mapView.setVisibility(View.INVISIBLE);
+				loginView.setVisibility(View.VISIBLE);
+				loginView.requestFocus();
 				return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+    
+    protected void initLoginView(){
+    	loginText = (EditText) findViewById(R.id.login_input);
+    	passwordText = (EditText) findViewById(R.id.password_input);
+    	loginButton = (Button) findViewById(R.id.login_button);
+        accountButton = (Button) findViewById(R.id.create_account_button);
+         
+    	populateLogin();
+        
+        createLoginListeners();
+    }
+    
+    protected void populateLogin(){
+    	String login = "wugs";
+    	String password = "********";
+    	
+    	SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
+    	
+    	loginText.setText(login);
+    	passwordText.setText(password);
+    }
+    
+    protected void createLoginListeners(){
+    	try{
+    		loginButton.setOnClickListener(new View.OnClickListener(){
+    			//@Override
+    			public void onClick(View view){
+    				// switch focus to GPSActivity
+    				loginView.setVisibility(View.INVISIBLE);
+    				mapView.setVisibility(View.VISIBLE);
+    				mapView.requestFocus();
+    			}
+    		});
+    		accountButton.setOnClickListener(new View.OnClickListener(){
+    			//@Override
+    			public void onClick(View view){
+    				// go to account creation screen (not created)
+    			}
+    		});
+    	}catch(Exception e){
+    		System.out.println("Error while creating login listeners");
+    		Log.e("ERROR", "Error in createLoginListeners: " + e.toString());
+    		e.printStackTrace();
+    	}
+    }
+    
+    private void runSplashThread(){
+    	 splashView = inflater.inflate(R.layout.splash, null);
+         addContentView(splashView, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.FILL_PARENT));
+         
+    	  Thread splash_thread = new Thread() {
+          	@Override
+          	public void run(){
+          		addContentView(splashView, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.FILL_PARENT));
+                
+          		try{
+          			int wait_time = 0;
+          			while(wait_time <= splash_window){
+          				sleep(100);
+          				wait_time += 100;
+          				//System.out.println("splash screen waited");
+          			}
+          		}catch(Exception e){
+          			System.out.println("Error in splash screen:");
+          			e.printStackTrace();
+          		}finally{
+          			//((ViewGroup)splashView.getParent()).removeView(splashView);
+          			try{
+          				splashView.setVisibility(View.INVISIBLE);
+          			//loginView.setVisibility(View.VISIBLE);
+          			//loginView.requestFocus();
+          			}catch(Exception e){
+          				System.out.println("Error in splash screen:");
+          				Log.e("Error in splash screen", "error: " + e.toString());
+              			e.printStackTrace();
+          			}
+          		}
+          	}
+          };
+          splash_thread.start();
     }
 }

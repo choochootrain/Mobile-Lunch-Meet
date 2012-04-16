@@ -113,36 +113,37 @@ class UsersController < ApplicationController
   end
 
   def closestMatch
-    loc = Location.find_by_user_id(params[:id])
-    user = User.find_by_id(loc.user_id)
+    user = User.find_by_id(params[:id])
 
-    if user.active == 0
+    if user.nil? or user.active == 0 
       respond_to do |format|
         format.json { render :json => 0 }
-      end
-    end 
-
-    if !loc.nil?
-      minLoc = 0 
-      activeUsers = User.where(:active => 1)
-      locs = activeUsers.select("location") 
-      locs.each { |x| 
-        if x.user_id != loc.user_id
-          if minLoc == 0 
-            minLoc = x
-          elsif Math.sqrt((loc.lat - x.lat)**2 + (loc.long - x.long)**2)  < Math.sqrt((loc.lat - minLoc.lat)**2 + (loc.long - minLoc.long)**2) 
-            minLoc = x
-          end
-        end
-      }
-      respond_to do |format|
-        format.json { render :json => minLoc }
       end
     else
-      respond_to do |format|
-        format.json { render :json => 0 }
+      loc = Location.find_by_user_id(params[:id])
+
+      if !loc.nil?
+        minLoc = 0 
+        activeUsers = User.where(:active => 1)
+        locs = activeUsers.collect{ |user| user.location }
+        locs.each { |x| 
+            if x != nil and x.user_id != loc.user_id
+            if minLoc == 0 
+              minLoc = x
+            elsif Math.sqrt((loc.lat - x.lat)**2 + (loc.long - x.long)**2)  < Math.sqrt((loc.lat - minLoc.lat)**2 + (loc.long - minLoc.long)**2) 
+              minLoc = x
+            end
+          end
+        }
+        respond_to do |format|
+          format.json { render :json => minLoc }
+        end
+      else
+        respond_to do |format|
+          format.json { render :json => 0 }
+        end
       end
-    end
+    end 
   end
 
   def showusers

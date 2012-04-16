@@ -91,7 +91,10 @@ public class Overlays extends ItemizedOverlay<OverlayItem> {
         public void onClick(DialogInterface dialog, int which) {
             JSONObject match = Server.match(id);
             try {
-                JSONObject location = (JSONObject)match.get("location");
+                Object o = match.get("location");
+                if (o == null)
+                    throw new JSONException("No match was found");
+                JSONObject location = (JSONObject)o;
                 int loc_id = location.getInt("user_id");
                 double end_lat = location.getDouble("lat");
                 double end_long = location.getDouble("long");

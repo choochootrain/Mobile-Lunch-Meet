@@ -7,6 +7,7 @@ import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -18,6 +19,7 @@ import android.widget.Button;
 import android.widget.Toast;
 import com.google.android.maps.*;
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.util.Log;
@@ -32,9 +34,10 @@ public class GPSActivity extends MapActivity {
     private MapView mapView;
     private LocationManager locationManager;
     private Overlays itemizedoverlay;
-    private MyLocationOverlay myLocationOverlay;
+    protected MyLocationOverlay myLocationOverlay;
     private Location previous;
-    private int id;
+    protected int id;
+    protected int match;
     private boolean locationCentered;
 
     private boolean logged_in;
@@ -86,7 +89,7 @@ public class GPSActivity extends MapActivity {
         mapView.setVisibility(View.INVISIBLE);
 
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 15000,
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000,
                 10, (LocationListener) new GeoUpdateHandler());
 
         previous = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
@@ -117,6 +120,54 @@ public class GPSActivity extends MapActivity {
         editor.commit();
         */
         login();
+
+        Thread partnerUpdate = new Thread() {
+            @Override
+            public void run() {
+                while (true) {
+                    GPSActivity.this.match = Server.partner(GPSActivity.this.id);
+                    if (GPSActivity.this.match > 0) {//you were matched
+                        GPSActivity.this.runOnUiThread(new Runnable() {
+                            public void run() {
+                                Toast.makeText(GPSActivity.this, "You are matched to " + match, Toast.LENGTH_LONG).show();
+
+                                JSONObject match = Server.match(id);
+                                try {
+                                    Object o = match.get("location");
+                                    if (o == null)
+                                        throw new JSONException("No match was found");
+                                    JSONObject location = (JSONObject)o;
+                                    int loc_id = location.getInt("user_id");
+                                    double end_lat = location.getDouble("lat");
+                                    double end_long = location.getDouble("long");
+                                    Toast.makeText(GPSActivity.this, "You are matched to " + loc_id, Toast.LENGTH_LONG).show();
+                                    if (GPSActivity.this.myLocationOverlay.getLastFix() != null) {
+                                        double lat = GPSActivity.this.myLocationOverlay.getLastFix().getLatitude();
+                                        double lon = GPSActivity.this.myLocationOverlay.getLastFix().getLongitude();
+                                        Intent intent = new Intent(Intent.ACTION_VIEW,
+                                                Uri.parse("http://maps.google.com/maps?saddr=" +
+                                                        lat + "," + lon + "&daddr=" +
+                                                        end_lat + "," + end_long));
+                                        GPSActivity.this.startActivity(intent);
+                                    }
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                    Toast.makeText(GPSActivity.this, "Brb something broke.", Toast.LENGTH_LONG).show();
+                                }
+                            }
+                        });
+                        break;
+                    }
+                    try {
+                        Thread.sleep(5000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        };
+
+        partnerUpdate.start();
 
         /*
         Drawable drawable = this.getResources().getDrawable(R.drawable.point);
@@ -167,7 +218,7 @@ public class GPSActivity extends MapActivity {
                 double lat = location.getDouble("lat");
                 double lon = location.getDouble("long");
                 Log.d(TAG, "##########" + lat + " " + (int)(1E6 * lat));
-                Log.d(TAG, "##########" + lon + " " + (int)(1E6 * lon));
+                Log.d(TAG, "##########" + lon + " " + (int) (1E6 * lon));
                 GeoPoint p = new GeoPoint((int)(1E6 * lat), (int)(1E6 * lon));
                 OverlayItem overlayItem;
                 if (loc_id != id)
@@ -244,7 +295,7 @@ public class GPSActivity extends MapActivity {
 				// switch to login screen
 				//super.finish();
 				logged_in = false;
-				
+				Server.logout(settings.getString("current login", ""));
 				mapView.setVisibility(View.INVISIBLE);
 				loginView.setVisibility(View.VISIBLE);
 				loginView.requestFocus();

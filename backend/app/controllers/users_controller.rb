@@ -147,7 +147,8 @@ class UsersController < ApplicationController
   end
 
   def showusers
-    users = User.where(:active => 1)
+    #users = User.where(:active => 1)
+    users = User.all
     
     respond_to do |format|
         format.json { render :json => users }

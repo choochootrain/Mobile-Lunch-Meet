@@ -1,9 +1,7 @@
 package com.cellphones.mobilelunchmeet;
 
-import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.HttpResponseException;
 import org.apache.http.impl.client.BasicResponseHandler;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONArray;
@@ -13,11 +11,11 @@ import java.net.URI;
 
 public class Server {
 
-    public static int register(String name, int year) {
+    public static int register(String name, String password, int year) {
         try {
             HttpClient client = new DefaultHttpClient();
             HttpGet request = new HttpGet();
-            String address = "http://vivid-ocean-9711.heroku.com/register/" + name + "/" + year + ".json";
+            String address = "http://vivid-ocean-9711.heroku.com/register/" + name + "/" + password + "/" + year + ".json";
             request.setURI(new URI(address.replace(" ", "%20")));
             String content = client.execute(request, new BasicResponseHandler());
             JSONObject response = new JSONObject(content);
@@ -27,6 +25,34 @@ public class Server {
             e.printStackTrace();
         }
         return -1;
+    }
+
+    public static boolean login(String name, String password) {
+        try {
+            HttpClient client = new DefaultHttpClient();
+            HttpGet request = new HttpGet();
+            String address = "http://vivid-ocean-9711.heroku.com/login/" + name + "/" + password + ".json";
+            request.setURI(new URI(address.replace(" ", "%20")));
+            client.execute(request, new BasicResponseHandler());
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public static boolean logout(String name) {
+        try {
+            HttpClient client = new DefaultHttpClient();
+            HttpGet request = new HttpGet();
+            String address = "http://vivid-ocean-9711.heroku.com/logout/" + name + ".json";
+            request.setURI(new URI(address.replace(" ", "%20")));
+            client.execute(request, new BasicResponseHandler());
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 
     public static JSONArray showUsers() {

@@ -25,8 +25,6 @@ import android.widget.EditText;
 import android.view.ViewGroup;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.Spinner;
-import android.app.Activity;
 
 public class GPSActivity extends MapActivity {
     private MapController mapController;
@@ -37,59 +35,43 @@ public class GPSActivity extends MapActivity {
     private Location previous;
     private int id;
     private boolean locationCentered;
-    
+
     private View loginView;
     private View splashView;
-    private View accountView;
     private LayoutInflater inflater;
-    
-    private SharedPreferences settings;
-    private SharedPreferences.Editor editor;
-    
+
     private EditText loginText;
     private EditText passwordText;
     private Button loginButton;
     private Button accountButton;
-    
-    private EditText c_loginText;
-    private EditText c_passwordText;
-    private EditText c_repeatPasswordText;
-    private Spinner c_yearSpinner;
-    private Button c_accountButton;
-    
+
     public static final String PREFS_NAME = "PrefsFile";
     public static final String TAG = "GPSActivity";
-    
+
     private static final int splash_window = 5000;
-    
-    
+
+
     public void onCreate(Bundle bundle) {
         super.onCreate(bundle);
-        
-        inflater = getLayoutInflater();
-        
+
+        //setContentView(R.layout.login);
         setContentView(R.layout.map);
-        
-        splashView = inflater.inflate(R.layout.splash, null);
-        addContentView(splashView, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.FILL_PARENT));
-        
-        settings = getSharedPreferences(PREFS_NAME, 0);
-        editor = settings.edit();
-        
+
+        inflater = getLayoutInflater();
         loginView = inflater.inflate(R.layout.login, null);
         addContentView(loginView, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.FILL_PARENT));
         initLoginView();
-        loginView.setVisibility(View.INVISIBLE);
-        
+        //loginView.setVisibility(View.INVISIBLE);
+
         //runSplashThread();
-        
+
         mapView = (MapView) findViewById(R.id.map);
         mapView.setBuiltInZoomControls(true);
         mapController = mapView.getController();
         mapController.setZoom(17);
 
         mapView.setVisibility(View.INVISIBLE);
-        
+
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 15000,
                 10, (LocationListener) new GeoUpdateHandler());
@@ -108,13 +90,15 @@ public class GPSActivity extends MapActivity {
         });
 
         //AsyncTaskify this
+        SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
         id = settings.getInt("id", -1);
         if (id < 0) {
-            id = Server.register("Test User", 2);
+            id = Server.register("Test User", "password", 2);
             Toast.makeText(this, "New user registered: " + id, Toast.LENGTH_SHORT).show();
         } else {
             Toast.makeText(this, "Old user logged in: " + id, Toast.LENGTH_SHORT).show();
         }
+        SharedPreferences.Editor editor = settings.edit();
         editor.putInt("id", id);
         editor.commit();
 
@@ -123,16 +107,13 @@ public class GPSActivity extends MapActivity {
         itemizedoverlay = new Overlays(this, drawable, id, myLocationOverlay);
 
         getLocations(Server.showLocations());
-        
-        loginView.setVisibility(View.VISIBLE);
-        ((ViewGroup)splashView.getParent()).removeView(splashView);
     }
 
     @Override
     protected boolean isRouteDisplayed() {
         return false;
     }
-    
+
     public class GeoUpdateHandler implements LocationListener {
 
         //@Override
@@ -210,7 +191,7 @@ public class GPSActivity extends MapActivity {
             mapView.getOverlays().add(itemizedoverlay);
         }
     }
-    
+
     @Override
     protected void onResume() {
         super.onResume();
@@ -224,7 +205,7 @@ public class GPSActivity extends MapActivity {
         myLocationOverlay.disableMyLocation();
         myLocationOverlay.disableCompass();
     }
-    
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -252,39 +233,34 @@ public class GPSActivity extends MapActivity {
                 return super.onOptionsItemSelected(item);
         }
     }
-    
+
     protected void initLoginView(){
     	loginText = (EditText) findViewById(R.id.login_input);
     	passwordText = (EditText) findViewById(R.id.password_input);
     	loginButton = (Button) findViewById(R.id.login_button);
         accountButton = (Button) findViewById(R.id.create_account_button);
-         
+
     	populateLogin();
-        
+
         createLoginListeners();
     }
-    
+
     protected void populateLogin(){
-    	String login = settings.getString("current_login", "");
-        String password = settings.getString("current_password", "");
-    	
+    	String login = "wugs";
+    	String password = "********";
+
+    	SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
+
     	loginText.setText(login);
     	passwordText.setText(password);
     }
-    
+
     protected void createLoginListeners(){
     	try{
     		loginButton.setOnClickListener(new View.OnClickListener(){
     			//@Override
     			public void onClick(View view){
-    				// switch focus to GPSActivity if login checks out
-    				String login_text = loginText.getText().toString();
-    				int desired_id = settings.getInt(login_text, -1);
-    				if(id == -1) return;
-    				String password_text = passwordText.getText().toString();
-    				int password_id = settings.getInt(password_text, -1);
-    				if(desired_id != password_id) return;
-    				
+    				// switch focus to GPSActivity
     				loginView.setVisibility(View.INVISIBLE);
     				mapView.setVisibility(View.VISIBLE);
     				mapView.requestFocus();
@@ -294,16 +270,6 @@ public class GPSActivity extends MapActivity {
     			//@Override
     			public void onClick(View view){
     				// go to account creation screen (not created)
-    				editor.putString("login", "wugs");
-    				editor.putString("password", "*******");
-    				editor.commit();
-    				loginText.setText("wugs");
-    		    	passwordText.setText("*******");
-    		    	
-    		    	loginView.setVisibility(View.INVISIBLE);
-    		    	Intent i = new Intent(GPSActivity.this, CreateAccountActivity.class);
-    		    	startActivity(i);
-    		    	loginView.setVisibility(View.VISIBLE);
     			}
     		});
     	}catch(Exception e){

@@ -54,7 +54,7 @@ public class MainActivity extends Activity
     {
         super.onCreate(savedInstanceState);
         
-setContentView(R.layout.splash);
+        setContentView(R.layout.splash);
         
 
         Thread splash_thread = new Thread() {
@@ -79,12 +79,6 @@ setContentView(R.layout.splash);
         
         //inflater = (LayoutInflater)getSystemService(LAYOUT_INFLATER_SERVICE);
 		//startup();
-    }
-
-    private void getData() {
-        Server.sendLocation(24, 123.456, 789.123);
-        JSONArray a = Server.showLocations();
-        jsonResult.setText((CharSequence) a.toString());
     }
 
     @Override

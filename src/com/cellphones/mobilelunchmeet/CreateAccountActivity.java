@@ -108,7 +108,7 @@ public class CreateAccountActivity extends Activity{
     				editor.putString("current login", loginText);
     				editor.putString("current password", passwordText);
     				
-    				int user_id = Server.register(loginText, selected_year);
+    				int user_id = Server.register(loginText, passwordText, selected_year);
     				
     				editor.putInt(loginText, user_id);
     				editor.putInt(passwordText,  user_id);

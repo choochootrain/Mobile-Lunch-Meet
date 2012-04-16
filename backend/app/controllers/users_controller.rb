@@ -1,63 +1,131 @@
 class UsersController < ApplicationController
 
+  def login
+    user = User.find_by_username(params[:username])
+    response = -1
+   
+    if user.nil?
+      response = 3 # no such user
+    else
+      if user.active == 1
+        response = 2 # already logged on
+      else
+        if user.password == params[:password] 
+          user.active = 1 
+          user.save
+          response = 1 # success
+        else
+          response = 0 # incorrect password
+        end
+      end
+    end
+
+    respond_to do |format|
+      format.json { render :json => response }
+    end
+  end
+
+  def logout
+    user = User.find_by_username(params[:username])
+    response = -1
+
+    if user.nil?
+      response = 3 # no such user
+    else
+      if user.active == 1
+        user.active = 0
+        user.save
+        response = 1 # succesful log out 
+      else
+        response = 0 # not logged in
+      end
+    end
+  
+    respond_to do |format|
+      format.json { render :json => response }
+    end
+  end
+
   def getuser
     user = User.find_by_id(params[:id])
+    response = 0
  
     if !user.nil?
-      respond_to do |format|
-        format.json { render :json => user }
-      end
-    else
-      respond_to do |format|
-        format.json { render :json => 0 }
-      end
+      response = user
+    end
+
+    respond_to do |format|
+      format.json { render :json => response }
     end
   end
 
   def getloc
-    loc = Location.find_by_user_id(params[:id])
+    location = Location.find_by_user_id(params[:id])
+    response = 0 
  
     if !loc.nil?
-      respond_to do |format|
-        format.json { render :json => loc }
-      end
-    else
-      respond_to do |format|
-        format.json { render :json => 0 }
-      end
+      response = location
+    end
+
+    respond_to do |format|
+      format.json { render :json => location }
     end
   end
 
   def sendloc
-    @user = User.find(params[:id])
-    @loc = @user.location
-    @lat = Float(params[:lat])
-    @long = Float(params[:long])
+    user = User.find_by_id(params[:id])
+    response = -1
 
-    if(@loc.nil?)
-      @loc = Location.new(:lat => @lat, :long => @long)
-      @loc.user_id = @user.id
-      @user.location = @loc
-      respond_to do |format|
-          format.json { render :json => @loc }
-      end
+    if !user.nil?
+        if user.active == 0
+          response = 0
+        else 
+          loc = user.location
+          lat = Float(params[:lat])
+          long = Float(params[:long])
+  
+          if(loc.nil?)
+            loc = Location.new(:lat => lat, :long => long)
+            loc.user_id = user.id
+            user.location = loc
+            user.save
+            response = 1
+          else
+            Location.destroy(loc.id)
+            newLoc = Location.new(:lat => lat, :long => long)
+            newLoc.user_id = user.id
+            user.location = newLoc
+            user.save
+            response = 1
+          end
+
+          respond_to do |format|
+            format.json { render :json => response }
+          end
+        end
     else
-      Location.destroy(@loc.id)
-      @newLoc = Location.new(:lat => @lat, :long => @long)
-      @newLoc.user_id = @user.id
-      @user.location = @newLoc
+      # user is nil
+      response = 0
       respond_to do |format|
-          format.json { render :json => @loc }
+          format.json { render :json => response }
       end
     end
   end
 
-  def match
+  def closestMatch
     loc = Location.find_by_user_id(params[:id])
+    user = User.find_by_id(loc.user_id)
 
-    if loc
+    if user.active == 0
+      respond_to do |format|
+        format.json { render :json => 0 }
+      end
+    end 
+
+    if !loc.nil?
       minLoc = 0 
-      locs = Location.all
+      activeUsers = User.where(:active => 1)
+      locs = activeUsers.select("location") 
       locs.each { |x| 
         if x.user_id != loc.user_id
           if minLoc == 0 
@@ -78,39 +146,46 @@ class UsersController < ApplicationController
   end
 
   def showusers
-    @users = User.all
+    users = User.where(:active => 1)
     
     respond_to do |format|
-        format.json { render :json => @users }
+        format.json { render :json => users }
     end
   end
 
   def showlocations
-    @locations = Location.all
+    locations = Location.all
     
     respond_to do |format|
-        format.json { render :json => @locations }
+        format.json { render :json => locations }
     end
   end
 
   def create
-    @user = User.new(:name => params[:name], :year => params[:year])
+    oldUser = User.find_by_username(params[:username])
 
-    respond_to do |format|
-      if @user.save
-        format.json  { render :json => @user }
-      else
-        format.json  { render :json => 0 }
+    if !oldUser.nil?
+      respond_to do |format|
+        format.json { render :json => 0 }
+      end
+    else
+      user = User.new(:name => params[:name], :year => params[:year], :username => params[:username], :password => params[:password])
+      respond_to do |format|
+        if user.save
+          format.json  { render :json => user }
+        else
+          format.json  { render :json => 0 }
+        end
       end
     end
   end
 
   def destroyloc
-    @user = Location.find_by_user_id(params[:id])
-    @user.destroy
+    location = Location.find_by_user_id(params[:id])
+    location.destroy
 
     respond_to do |format|
-      if @user.save
+      if location.save
         format.json  { render :json => 1 }
       else
         format.json  { render :json => 0 }
@@ -120,11 +195,11 @@ class UsersController < ApplicationController
 
 
   def destroyuser
-    @user = User.find_by_id(params[:id])
-    @user.destroy
+    user = User.find_by_id(params[:id])
+    user.destroy
 
     respond_to do |format|
-      if @user.save
+      if user.save
         format.json  { render :json => 1 }
       else
         format.json  { render :json => 0 }

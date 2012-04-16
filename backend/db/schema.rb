@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120319062028) do
+ActiveRecord::Schema.define(:version => 20120415235356) do
 
   create_table "locations", :force => true do |t|
     t.float    "lat"
@@ -25,6 +25,9 @@ ActiveRecord::Schema.define(:version => 20120319062028) do
     t.integer  "year"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "password"
+    t.string   "username"
+    t.integer  "active",     :default => 0
   end
 
 end

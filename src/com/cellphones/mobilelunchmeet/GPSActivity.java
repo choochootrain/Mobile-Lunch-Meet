@@ -64,8 +64,10 @@ public class GPSActivity extends MapActivity {
         
         setContentView(R.layout.map);
         
-        splashView = inflater.inflate(R.layout.splash, null);
-        addContentView(splashView, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.FILL_PARENT));
+        //splashView = inflater.inflate(R.layout.splash, null);
+        //addContentView(splashView, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.FILL_PARENT));
+        Intent i = new Intent(GPSActivity.this, SplashActivity.class);
+        startActivity(i);
         
         settings = getSharedPreferences(PREFS_NAME, 0);
         editor = settings.edit();
@@ -120,8 +122,8 @@ public class GPSActivity extends MapActivity {
         getLocations(Server.showLocations());
         */
         
-        loginView.setVisibility(View.VISIBLE);
-        ((ViewGroup)splashView.getParent()).removeView(splashView);
+        //loginView.setVisibility(View.VISIBLE);
+        //((ViewGroup)splashView.getParent()).removeView(splashView);
     }
 
     @Override
@@ -316,9 +318,13 @@ public class GPSActivity extends MapActivity {
     		    	Intent i = new Intent(GPSActivity.this, CreateAccountActivity.class);
     		    	startActivity(i);
     		    	
+    		    	Log.d("GPS account button listener", "<- check it out");
     		    	loginText.setText(settings.getString("current login", ""));
     		    	passwordText.setText(settings.getString("current password", ""));
     		    	
+    		    	String login = settings.getString("current login", "");
+    		    	String password = settings.getString("current password", "");
+    		    	Toast.makeText(this_reference, "login: " + login + "; password: " + password, Toast.LENGTH_LONG).show();
     		    	loginView.setVisibility(View.VISIBLE);
     			}
     		});

@@ -6,4 +6,23 @@
   <string name="about_text">K so this is where we put the about stuff and stuff.</string>
   <string name="get_json_name">Get JSON Data</string>
   <string name="gps_name">GPS Location</string>
+  <string name="create_account_name">Create Account</string>
+  <string name="create_account_button">Create an account?</string>
+  <string name="login_button">Login</string>
+  <string name="quit_button">Quit</string>
+  <string name="login_text">login</string>
+  <string name="password_text">password</string>
+  <string name="title_text">Mobile Lunch Meet</string>
+  <string name="loading_text">Loading...</string>
+  <string name="logout_button">Logout</string>
+  <string name="repeat_password_text">repeat password</string>
+  <string name="year_text">year</string>
+  <string name="year_prompt">Choose your year</string>
+  <string-array name="year_array">
+      <item>Freshman</item>
+      <item>Sophomore</item>
+      <item>Junior</item>
+      <item>Senior</item>
+  </string-array>
+      <string name="c_create_account_button">Create Account</string>
 </resources>

@@ -17,6 +17,7 @@ Lunch::Application.routes.draw do
   match "getlocation/:id" => "users#getloc"
 
   match "match/:id" => "users#closestMatch"
+  match "partner/:id" => "users#partner"
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

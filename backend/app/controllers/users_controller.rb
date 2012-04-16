@@ -1,5 +1,28 @@
 class UsersController < ApplicationController
 
+  def partner
+    user = User.find_by_id(params[:id])
+    response = -1
+
+    if user.nil?
+      response = -1 
+    else
+      if user.active == 0
+        response = -1 
+      else
+        if user.partner == 0 
+          response = -1
+        else
+          response = user.partner
+        end
+      end
+    end
+
+    respond_to do |format|
+      format.json { render :json => response }
+    end
+  end
+
   def login
     user = User.find_by_username(params[:username])
     response = -1
@@ -34,6 +57,12 @@ class UsersController < ApplicationController
     else
       if user.active == 1
         user.active = 0
+        user.location.destroy
+        partner = user.partner 
+        user.partner = 0 
+        otherUser = User.find_by_id(partner)
+        otherUser.partner = 0
+        otherUser.save
         user.save
         response = 1 # succesful log out 
       else
@@ -98,10 +127,10 @@ class UsersController < ApplicationController
             user.save
             response = 1
           end
+        end
 
-          respond_to do |format|
-            format.json { render :json => response }
-          end
+        respond_to do |format|
+          format.json { render :json => response }
         end
     else
       # user is nil
@@ -135,6 +164,14 @@ class UsersController < ApplicationController
             end
           end
         }
+
+        if minLoc != 0
+          other = User.find_by_id(minLoc.user_id) 
+          other.partner = user.id
+          user.partner = other.id
+          other.save
+          user.save
+        end
         respond_to do |format|
           format.json { render :json => minLoc }
         end

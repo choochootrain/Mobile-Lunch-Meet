@@ -97,25 +97,25 @@ public class CreateAccountActivity extends Activity{
     					return false;
     				}
     				
-    				if(settings.getInt(loginText, -1) != -1){
+    				if(settings.getInt("id", -1) != -1){
     					Toast.makeText(this_reference, "Account already exists", Toast.LENGTH_LONG).show();
     					return false;
     				}	
     				
-    				int user_id = Server.register(loginText, passwordText, selected_year);
-    				Toast.makeText(this_reference, "id: " + user_id, Toast.LENGTH_LONG).show();
+    				int user_id = Server.register(loginText.toLowerCase(), passwordText, "Steve", selected_year);
     				
-    				editor.putString("current login", loginText);
-    				editor.putString("current password", passwordText);
-					editor.putInt(loginText.toLowerCase(), user_id);
-    				editor.putInt(passwordText,  user_id);
-    				editor.putInt("current id", user_id);
+                    if(user_id == -1) {
+                        Toast.makeText(this_reference, "Account already exists", Toast.LENGTH_LONG).show();
+                        return false;
+                    }
+
+                    Toast.makeText(this_reference, "id: " + user_id, Toast.LENGTH_LONG).show();
+    				
+    				editor.putString("login", loginText);
+    				editor.putString("password", passwordText);
+					editor.putInt("id", user_id);
     				editor.commit();
-    				
-    				//user_id = settings.getInt(loginText.toLowerCase(), -1);
-    				//String curr_login = settings.getString("current login", "");
-    				
-    				//Toast.makeText(this_reference, "Login: " + curr_login + "; id: " + user_id, Toast.LENGTH_LONG).show();
+
     				return true;
     			}
     		});

@@ -10,6 +10,7 @@ import android.location.LocationManager;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -55,6 +56,8 @@ public class GPSActivity extends MapActivity {
     
     private SharedPreferences settings;
     private SharedPreferences.Editor editor;
+
+    private Handler handler;
     
     public static final String PREFS_NAME = "PrefsFile";
     public static final String TAG = "GPSActivity";
@@ -175,6 +178,22 @@ public class GPSActivity extends MapActivity {
 
         getLocations(Server.showLocations());
 		*/
+
+        handler = new Handler();
+
+        Runnable refreshTask = new Runnable()
+        {
+            public void run()
+            {
+                handler.removeCallbacks(this);
+
+                mapView.postInvalidate();
+
+                handler.postDelayed(this, 1000);
+
+            }
+        };
+        refreshTask.run();
     }
 
     @Override
@@ -301,8 +320,6 @@ public class GPSActivity extends MapActivity {
 				loginView.requestFocus();
 				
 				Toast.makeText(this, settings.getString("current login", "") + " logged out", Toast.LENGTH_SHORT).show();
-				editor.putInt("current id", -1);
-				editor.commit();
 				
 				return true;
             default:
@@ -322,8 +339,8 @@ public class GPSActivity extends MapActivity {
     }
 
     protected void populateLogin(){
-    	String login = settings.getString("current login", "");
-        String password = settings.getString("current password", "");
+    	String login = settings.getString("login", "");
+        String password = settings.getString("password", "");
     	loginText.setText(login);
     	passwordText.setText(password);
     }
@@ -335,16 +352,17 @@ public class GPSActivity extends MapActivity {
     			public void onClick(View view){
     				// switch focus to GPSActivity if login checks out
     				String login_text = loginText.getText().toString();
-    				int desired_id = settings.getInt(login_text.toLowerCase(), -1);
+    				int id = settings.getInt("id", -1);
     				if(id == -1){
     					Toast.makeText(this_reference, "login \"" + login_text + "\" does not exist", Toast.LENGTH_LONG).show();
     					return;
     				}
     				
+                    String login = settings.getString("login", "");
     				String password_text = passwordText.getText().toString();
-    				int password_id = settings.getInt(password_text, -1);
-    				if(desired_id != password_id) {
-    					Toast.makeText(this_reference, "Invalid password", Toast.LENGTH_LONG).show();
+    				String password = settings.getString("password", "");
+    				if(!password.equals(password_text) || password.equals("") || !login.equals(login_text) || login.equals("")) {
+    					Toast.makeText(this_reference, "Invalid credentials", Toast.LENGTH_LONG).show();
     					return;
     				}
 
@@ -352,11 +370,6 @@ public class GPSActivity extends MapActivity {
                     
                     if(!loggedin)
                         Toast.makeText(this_reference, "Login failed", Toast.LENGTH_LONG).show();
-    				
-    				editor.putInt("current id", desired_id);
-    				editor.putString("current login", login_text.toLowerCase());
-    				editor.putString("current password", password_text);
-    				editor.commit();
     				
     				loginView.setVisibility(View.INVISIBLE);
     				mapView.setVisibility(View.VISIBLE);
@@ -372,14 +385,7 @@ public class GPSActivity extends MapActivity {
     		    	loginView.setVisibility(View.INVISIBLE);
     		    	Intent i = new Intent(GPSActivity.this, CreateAccountActivity.class);
     		    	startActivity(i);
-    		    	
-    		    	Log.d("GPS account button listener", "<- check it out");
-    		    	loginText.setText(settings.getString("current login", ""));
-    		    	passwordText.setText(settings.getString("current password", ""));
-    		    	
-    		    	String login = settings.getString("current login", "");
-    		    	String password = settings.getString("current password", "");
-    		    	Toast.makeText(this_reference, "login: " + login + "; password: " + password, Toast.LENGTH_LONG).show();
+
     		    	loginView.setVisibility(View.VISIBLE);
     			}
     		});
@@ -392,7 +398,7 @@ public class GPSActivity extends MapActivity {
     
     protected void login(){
     	 //AsyncTaskify this
-        id = settings.getInt("current id", -1);
+        id = settings.getInt("id", -1);
         if(id < 0){
         	loginView.setVisibility(View.VISIBLE);
         	
@@ -401,12 +407,12 @@ public class GPSActivity extends MapActivity {
         	mapView.setVisibility(View.VISIBLE);
         	logged_in = true;
 
-            boolean loggedin = Server.login(settings.getString("current login", ""), settings.getString("current password", ""));
+            boolean loggedin = Server.login(settings.getString("login", ""), settings.getString("password", ""));
 
             if(!loggedin)
                 Toast.makeText(this_reference, "Login failed", Toast.LENGTH_LONG).show();
             else
-                Toast.makeText(this, settings.getString("current login", "") + " logged in", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, settings.getString("login", "") + " logged in", Toast.LENGTH_SHORT).show();
         	
         	Drawable drawable = this.getResources().getDrawable(R.drawable.point);
             itemizedoverlay = new Overlays(this, drawable, id, myLocationOverlay);

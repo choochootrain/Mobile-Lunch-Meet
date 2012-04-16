@@ -10,6 +10,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.net.URI;
+import android.util.Log;
 
 public class Server {
 
@@ -20,10 +21,14 @@ public class Server {
             String address = "http://vivid-ocean-9711.heroku.com/register/" + name + "/" + year + ".json";
             request.setURI(new URI(address.replace(" ", "%20")));
             String content = client.execute(request, new BasicResponseHandler());
+            Log.d("register", "content: " + content);
+            
             JSONObject response = new JSONObject(content);
             JSONObject user = (JSONObject) response.get("user");
+            Log.d("register", "user: " + user.toString());
             return user.getInt("id");
         } catch (Exception e) {
+        	Log.e("register", "Problem in register");
             e.printStackTrace();
         }
         return -1;

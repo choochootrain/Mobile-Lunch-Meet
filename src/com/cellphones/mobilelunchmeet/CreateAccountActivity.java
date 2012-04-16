@@ -55,7 +55,9 @@ public class CreateAccountActivity extends Activity{
 	     ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.year_array, android.R.layout.simple_spinner_item);
 	     adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 	     c_yearSpinner.setAdapter(adapter);
-	     selected_year = -1;
+	     c_yearSpinner.setOnItemSelectedListener(new SpinnerOnItemSelectedListener());
+	     
+	     selected_year = 0;
 	     
 	     settings = getSharedPreferences(PREFS_NAME, 0);
 	     editor = settings.edit();
@@ -72,10 +74,10 @@ public class CreateAccountActivity extends Activity{
     			public void onClick(View view){
     				// create account and switch back to login screen
     				
-    				//if(!handleInput()){
+    				if(handleInput()){
     					((ViewGroup)accountView.getParent()).removeView(accountView);
     					this_reference.finish();
-    				//}
+    				}
     			}
     			
     			private boolean handleInput(){
@@ -95,25 +97,25 @@ public class CreateAccountActivity extends Activity{
     					return false;
     				}
     				
-    				if(selected_year == -1){
-    					Toast.makeText(this_reference, "Please select year", Toast.LENGTH_LONG).show();
-    					return false;
-    				}
-    				
-    				if(settings.getInt(loginText, -1) == -1){
+    				if(settings.getInt(loginText, -1) != -1){
     					Toast.makeText(this_reference, "Account already exists", Toast.LENGTH_LONG).show();
     					return false;
-    				}
+    				}	
+    				
+    				int user_id = Server.register(loginText, selected_year);
+    				Toast.makeText(this_reference, "id: " + user_id, Toast.LENGTH_LONG).show();
     				
     				editor.putString("current login", loginText);
     				editor.putString("current password", passwordText);
-    				
-    				int user_id = Server.register(loginText, selected_year);
-    				
-    				editor.putInt(loginText, user_id);
+    				editor.putInt(loginText.toLowerCase(), user_id);
     				editor.putInt(passwordText,  user_id);
-    				
+    				editor.putInt("current id", user_id);
     				editor.commit();
+    				
+    				user_id = settings.getInt(loginText.toLowerCase(), -1);
+    				String curr_login = settings.getString("current login", "");
+    				
+    				Toast.makeText(this_reference, "Login: " + curr_login + "; id: " + user_id, Toast.LENGTH_LONG).show();
     				return true;
     			}
     		});

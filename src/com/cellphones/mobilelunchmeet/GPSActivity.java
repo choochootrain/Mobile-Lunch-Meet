@@ -149,8 +149,8 @@ public class GPSActivity extends MapActivity {
                 int loc_id = location.getInt("user_id");
                 double lat = location.getDouble("lat");
                 double lon = location.getDouble("long");
-                Log.e(TAG, "##########" + lat + " " + (int)(1E6 * lat));
-                Log.e(TAG, "##########" + lon + " " + (int)(1E6 * lon));
+                Log.d(TAG, "##########" + lat + " " + (int)(1E6 * lat));
+                Log.d(TAG, "##########" + lon + " " + (int)(1E6 * lon));
                 GeoPoint p = new GeoPoint((int)(1E6 * lat), (int)(1E6 * lon));
                 OverlayItem overlayItem;
                 if (loc_id != id)

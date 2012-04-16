@@ -1,7 +1,9 @@
 Lunch::Application.routes.draw do
   resources :users
  
-  match "register/:name/:year" => "users#create"
+  match "register/:username/:password/:name/:year" => "users#create"
+  match "login/:username/:password" => "users#login"
+  match "logout/:username" => "users#logout"
 
   match "showusers" => "users#showusers"
   match "showlocations" => "users#showlocations"
@@ -14,7 +16,7 @@ Lunch::Application.routes.draw do
   match "getuser/:id" => "users#getuser"
   match "getlocation/:id" => "users#getloc"
 
-  match "match/:id" => "users#match"
+  match "match/:id" => "users#closestMatch"
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

@@ -107,7 +107,7 @@ public class CreateAccountActivity extends Activity{
     				
     				editor.putString("current login", loginText);
     				editor.putString("current password", passwordText);
-    				editor.putInt(loginText.toLowerCase(), user_id);
+					editor.putInt(loginText.toLowerCase(), user_id);
     				editor.putInt(passwordText,  user_id);
     				editor.putInt("current id", user_id);
     				editor.commit();

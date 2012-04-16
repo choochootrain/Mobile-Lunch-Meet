@@ -25,7 +25,6 @@ import android.widget.EditText;
 import android.view.ViewGroup;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.Spinner;
 import android.app.Activity;
 
 public class GPSActivity extends MapActivity {
@@ -37,21 +36,22 @@ public class GPSActivity extends MapActivity {
     private Location previous;
     private int id;
     private boolean locationCentered;
+
     private boolean logged_in;
     
     private View loginView;
     private View splashView;
     private LayoutInflater inflater;
-    
-    private SharedPreferences settings;
-    private SharedPreferences.Editor editor;
-    
+
     private EditText loginText;
     private EditText passwordText;
     private Button loginButton;
     private Button accountButton;
     
     private Activity this_reference;
+    
+    private SharedPreferences settings;
+    private SharedPreferences.Editor editor;
     
     public static final String PREFS_NAME = "PrefsFile";
     public static final String TAG = "GPSActivity";
@@ -83,7 +83,8 @@ public class GPSActivity extends MapActivity {
         
         mapController = mapView.getController();
         mapController.setZoom(17);
-        
+        mapView.setVisibility(View.INVISIBLE);
+
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 15000,
                 10, (LocationListener) new GeoUpdateHandler());
@@ -104,12 +105,14 @@ public class GPSActivity extends MapActivity {
         //AsyncTaskify this
         /*
         id = settings.getInt("current id", -1);
+
         if (id < 0) {
-            id = Server.register("Test User", 2);
+            id = Server.register("Test User", "password", 2);
             Toast.makeText(this, "New user registered: " + id, Toast.LENGTH_SHORT).show();
         } else {
             Toast.makeText(this, "Old user logged in: " + id, Toast.LENGTH_SHORT).show();
         }
+        SharedPreferences.Editor editor = settings.edit();
         editor.putInt("id", id);
         editor.commit();
         */
@@ -120,17 +123,14 @@ public class GPSActivity extends MapActivity {
         itemizedoverlay = new Overlays(this, drawable, id, myLocationOverlay);
 
         getLocations(Server.showLocations());
-        */
-        
-        //loginView.setVisibility(View.VISIBLE);
-        //((ViewGroup)splashView.getParent()).removeView(splashView);
+		*/
     }
 
     @Override
     protected boolean isRouteDisplayed() {
         return false;
     }
-    
+
     public class GeoUpdateHandler implements LocationListener {
 
         //@Override
@@ -166,8 +166,8 @@ public class GPSActivity extends MapActivity {
                 int loc_id = location.getInt("user_id");
                 double lat = location.getDouble("lat");
                 double lon = location.getDouble("long");
-                Log.e(TAG, "##########" + lat + " " + (int)(1E6 * lat));
-                Log.e(TAG, "##########" + lon + " " + (int)(1E6 * lon));
+                Log.d(TAG, "##########" + lat + " " + (int)(1E6 * lat));
+                Log.d(TAG, "##########" + lon + " " + (int)(1E6 * lon));
                 GeoPoint p = new GeoPoint((int)(1E6 * lat), (int)(1E6 * lon));
                 OverlayItem overlayItem;
                 if (loc_id != id)
@@ -209,7 +209,7 @@ public class GPSActivity extends MapActivity {
             mapView.getOverlays().add(itemizedoverlay);
         }
     }
-    
+
     @Override
     protected void onResume() {
         super.onResume();
@@ -223,7 +223,7 @@ public class GPSActivity extends MapActivity {
         myLocationOverlay.disableMyLocation();
         myLocationOverlay.disableCompass();
     }
-    
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -258,26 +258,25 @@ public class GPSActivity extends MapActivity {
                 return super.onOptionsItemSelected(item);
         }
     }
-    
+
     protected void initLoginView(){
     	loginText = (EditText) findViewById(R.id.login_input);
     	passwordText = (EditText) findViewById(R.id.password_input);
     	loginButton = (Button) findViewById(R.id.login_button);
         accountButton = (Button) findViewById(R.id.create_account_button);
-         
+
     	populateLogin();
-        
+
         createLoginListeners();
     }
-    
+
     protected void populateLogin(){
     	String login = settings.getString("current login", "");
         String password = settings.getString("current password", "");
-    	
     	loginText.setText(login);
     	passwordText.setText(password);
     }
-    
+
     protected void createLoginListeners(){
     	try{
     		loginButton.setOnClickListener(new View.OnClickListener(){

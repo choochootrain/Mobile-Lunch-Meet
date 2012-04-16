@@ -12,19 +12,15 @@ import android.util.Log;
 
 public class Server {
 
-    public static int register(String name, String password, int year) {
+    public static int register(String username, String password, String name, int year) {
         try {
             HttpClient client = new DefaultHttpClient();
             HttpGet request = new HttpGet();
-            String address = "http://vivid-ocean-9711.heroku.com/register/" + name + "/" + password + "/" + year + ".json";
+            String address = "http://vivid-ocean-9711.heroku.com/register/" + username + "/" + password + "/" + name + "/" + year + ".json";
             request.setURI(new URI(address.replace(" ", "%20")));
             String content = client.execute(request, new BasicResponseHandler());
-          //  Log.d("register", "content: " + content);
-            
             JSONObject response = new JSONObject(content);
             JSONObject user = (JSONObject) response.get("user");
-           // Log.d("register", "user: " + user.toString());
-            //Log.d("register", "user id: " + user.getInt("id"));
             return user.getInt("id");
         } catch (Exception e) {
         	Log.e("register", "Problem in register");
@@ -33,11 +29,11 @@ public class Server {
         return -1;
     }
 
-    public static boolean login(String name, String password) {
+    public static boolean login(String username, String password) {
         try {
             HttpClient client = new DefaultHttpClient();
             HttpGet request = new HttpGet();
-            String address = "http://vivid-ocean-9711.heroku.com/login/" + name + "/" + password + ".json";
+            String address = "http://vivid-ocean-9711.heroku.com/login/" + username + "/" + password + ".json";
             request.setURI(new URI(address.replace(" ", "%20")));
             client.execute(request, new BasicResponseHandler());
             return true;
@@ -47,11 +43,11 @@ public class Server {
         return false;
     }
 
-    public static boolean logout(String name) {
+    public static boolean logout(String username) {
         try {
             HttpClient client = new DefaultHttpClient();
             HttpGet request = new HttpGet();
-            String address = "http://vivid-ocean-9711.heroku.com/logout/" + name + ".json";
+            String address = "http://vivid-ocean-9711.heroku.com/logout/" + username + ".json";
             request.setURI(new URI(address.replace(" ", "%20")));
             client.execute(request, new BasicResponseHandler());
             return true;
@@ -157,5 +153,18 @@ public class Server {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public static int partner(int id) {
+        try {
+            HttpClient client = new DefaultHttpClient();
+            HttpGet request = new HttpGet();
+            request.setURI(new URI("http://vivid-ocean-9711.heroku.com/partner/" + id + ".json"));
+            String content = client.execute(request, new BasicResponseHandler());
+            return Integer.parseInt(content);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return -1;
     }
 }

@@ -102,7 +102,7 @@ public class CreateAccountActivity extends Activity{
     					return false;
     				}	
     				
-    				int user_id = Server.register(loginText, passwordText, "Steve", selected_year);
+    				int user_id = Server.register(loginText.toLowerCase(), passwordText, "Steve", selected_year);
     				Toast.makeText(this_reference, "id: " + user_id, Toast.LENGTH_LONG).show();
     				
     				editor.putString("current login", loginText);
@@ -112,6 +112,7 @@ public class CreateAccountActivity extends Activity{
     				editor.putInt("current id", user_id);
     				editor.commit();
     				
+    				//user_id = settings.getInt(loginText.toLowerCase(), -1);
     				//user_id = settings.getInt(loginText.toLowerCase(), -1);
     				//String curr_login = settings.getString("current login", "");
     				

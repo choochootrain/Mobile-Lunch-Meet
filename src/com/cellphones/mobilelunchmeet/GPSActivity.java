@@ -296,6 +296,11 @@ public class GPSActivity extends MapActivity {
     					Toast.makeText(this_reference, "Invalid password", Toast.LENGTH_LONG).show();
     					return;
     				}
+
+                    boolean loggedin = Server.login(login_text.toLowerCase(), password_text);
+                    
+                    if(!loggedin)
+                        Toast.makeText(this_reference, "Login failed", Toast.LENGTH_LONG).show();
     				
     				editor.putInt("current id", desired_id);
     				editor.putString("current login", login_text.toLowerCase());
@@ -344,7 +349,13 @@ public class GPSActivity extends MapActivity {
         }else{
         	mapView.setVisibility(View.VISIBLE);
         	logged_in = true;
-        	Toast.makeText(this, settings.getString("current login", "") + " logged in", Toast.LENGTH_SHORT).show();
+
+            boolean loggedin = Server.login(settings.getString("current login", ""), settings.getString("current password", ""));
+
+            if(!loggedin)
+                Toast.makeText(this_reference, "Login failed", Toast.LENGTH_LONG).show();
+            else
+                Toast.makeText(this, settings.getString("current login", "") + " logged in", Toast.LENGTH_SHORT).show();
         	
         	Drawable drawable = this.getResources().getDrawable(R.drawable.point);
             itemizedoverlay = new Overlays(this, drawable, id, myLocationOverlay);

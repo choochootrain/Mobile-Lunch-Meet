@@ -25,7 +25,6 @@ import android.widget.EditText;
 import android.view.ViewGroup;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.Spinner;
 import android.app.Activity;
 
 public class GPSActivity extends MapActivity {
@@ -37,41 +36,38 @@ public class GPSActivity extends MapActivity {
     private Location previous;
     private int id;
     private boolean locationCentered;
+
+    private boolean logged_in;
     
     private View loginView;
     private View splashView;
-    private View accountView;
     private LayoutInflater inflater;
-    
-    private SharedPreferences settings;
-    private SharedPreferences.Editor editor;
-    
+
     private EditText loginText;
     private EditText passwordText;
     private Button loginButton;
     private Button accountButton;
     
-    private EditText c_loginText;
-    private EditText c_passwordText;
-    private EditText c_repeatPasswordText;
-    private Spinner c_yearSpinner;
-    private Button c_accountButton;
+    private Activity this_reference;
+    
+    private SharedPreferences settings;
+    private SharedPreferences.Editor editor;
     
     public static final String PREFS_NAME = "PrefsFile";
     public static final String TAG = "GPSActivity";
     
-    private static final int splash_window = 5000;
-    
-    
     public void onCreate(Bundle bundle) {
         super.onCreate(bundle);
+        this_reference = this;
         
         inflater = getLayoutInflater();
         
         setContentView(R.layout.map);
         
-        splashView = inflater.inflate(R.layout.splash, null);
-        addContentView(splashView, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.FILL_PARENT));
+        //splashView = inflater.inflate(R.layout.splash, null);
+        //addContentView(splashView, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.FILL_PARENT));
+        Intent i = new Intent(GPSActivity.this, SplashActivity.class);
+        startActivity(i);
         
         settings = getSharedPreferences(PREFS_NAME, 0);
         editor = settings.edit();
@@ -81,15 +77,14 @@ public class GPSActivity extends MapActivity {
         initLoginView();
         loginView.setVisibility(View.INVISIBLE);
         
-        //runSplashThread();
-        
         mapView = (MapView) findViewById(R.id.map);
         mapView.setBuiltInZoomControls(true);
-        mapController = mapView.getController();
-        mapController.setZoom(17);
-
         mapView.setVisibility(View.INVISIBLE);
         
+        mapController = mapView.getController();
+        mapController.setZoom(17);
+        mapView.setVisibility(View.INVISIBLE);
+
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 15000,
                 10, (LocationListener) new GeoUpdateHandler());
@@ -108,31 +103,34 @@ public class GPSActivity extends MapActivity {
         });
 
         //AsyncTaskify this
-        id = settings.getInt("id", -1);
+        /*
+        id = settings.getInt("current id", -1);
+
         if (id < 0) {
-            id = Server.register("Test User", 2);
+            id = Server.register("Test User", "password", 2);
             Toast.makeText(this, "New user registered: " + id, Toast.LENGTH_SHORT).show();
         } else {
             Toast.makeText(this, "Old user logged in: " + id, Toast.LENGTH_SHORT).show();
         }
+        SharedPreferences.Editor editor = settings.edit();
         editor.putInt("id", id);
         editor.commit();
+        */
+        login();
 
-
+        /*
         Drawable drawable = this.getResources().getDrawable(R.drawable.point);
         itemizedoverlay = new Overlays(this, drawable, id, myLocationOverlay);
 
         getLocations(Server.showLocations());
-        
-        loginView.setVisibility(View.VISIBLE);
-        ((ViewGroup)splashView.getParent()).removeView(splashView);
+		*/
     }
 
     @Override
     protected boolean isRouteDisplayed() {
         return false;
     }
-    
+
     public class GeoUpdateHandler implements LocationListener {
 
         //@Override
@@ -168,8 +166,8 @@ public class GPSActivity extends MapActivity {
                 int loc_id = location.getInt("user_id");
                 double lat = location.getDouble("lat");
                 double lon = location.getDouble("long");
-                Log.e(TAG, "##########" + lat + " " + (int)(1E6 * lat));
-                Log.e(TAG, "##########" + lon + " " + (int)(1E6 * lon));
+                Log.d(TAG, "##########" + lat + " " + (int)(1E6 * lat));
+                Log.d(TAG, "##########" + lon + " " + (int)(1E6 * lon));
                 GeoPoint p = new GeoPoint((int)(1E6 * lat), (int)(1E6 * lon));
                 OverlayItem overlayItem;
                 if (loc_id != id)
@@ -188,6 +186,7 @@ public class GPSActivity extends MapActivity {
                 }
             }
         } catch (Exception e) {
+        	System.out.println("Error in getLocations");
             e.printStackTrace();
         }
         mapView.postInvalidate();
@@ -210,7 +209,7 @@ public class GPSActivity extends MapActivity {
             mapView.getOverlays().add(itemizedoverlay);
         }
     }
-    
+
     @Override
     protected void onResume() {
         super.onResume();
@@ -224,7 +223,7 @@ public class GPSActivity extends MapActivity {
         myLocationOverlay.disableMyLocation();
         myLocationOverlay.disableCompass();
     }
-    
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -244,34 +243,40 @@ public class GPSActivity extends MapActivity {
 			case R.id.logout_button:
 				// switch to login screen
 				//super.finish();
+				logged_in = false;
+				
 				mapView.setVisibility(View.INVISIBLE);
 				loginView.setVisibility(View.VISIBLE);
 				loginView.requestFocus();
+				
+				Toast.makeText(this, settings.getString("current login", "") + " logged out", Toast.LENGTH_SHORT).show();
+				editor.putInt("current id", -1);
+				editor.commit();
+				
 				return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
-    
+
     protected void initLoginView(){
     	loginText = (EditText) findViewById(R.id.login_input);
     	passwordText = (EditText) findViewById(R.id.password_input);
     	loginButton = (Button) findViewById(R.id.login_button);
         accountButton = (Button) findViewById(R.id.create_account_button);
-         
+
     	populateLogin();
-        
+
         createLoginListeners();
     }
-    
+
     protected void populateLogin(){
-    	String login = settings.getString("current_login", "");
-        String password = settings.getString("current_password", "");
-    	
+    	String login = settings.getString("current login", "");
+        String password = settings.getString("current password", "");
     	loginText.setText(login);
     	passwordText.setText(password);
     }
-    
+
     protected void createLoginListeners(){
     	try{
     		loginButton.setOnClickListener(new View.OnClickListener(){
@@ -279,30 +284,46 @@ public class GPSActivity extends MapActivity {
     			public void onClick(View view){
     				// switch focus to GPSActivity if login checks out
     				String login_text = loginText.getText().toString();
-    				int desired_id = settings.getInt(login_text, -1);
-    				if(id == -1) return;
+    				int desired_id = settings.getInt(login_text.toLowerCase(), -1);
+    				if(id == -1){
+    					Toast.makeText(this_reference, "login \"" + login_text + "\" does not exist", Toast.LENGTH_LONG).show();
+    					return;
+    				}
+    				
     				String password_text = passwordText.getText().toString();
     				int password_id = settings.getInt(password_text, -1);
-    				if(desired_id != password_id) return;
+    				if(desired_id != password_id) {
+    					Toast.makeText(this_reference, "Invalid password", Toast.LENGTH_LONG).show();
+    					return;
+    				}
+    				
+    				editor.putInt("current id", desired_id);
+    				editor.putString("current login", login_text.toLowerCase());
+    				editor.putString("current password", password_text);
+    				editor.commit();
     				
     				loginView.setVisibility(View.INVISIBLE);
     				mapView.setVisibility(View.VISIBLE);
     				mapView.requestFocus();
+    				
+    				login();
     			}
     		});
     		accountButton.setOnClickListener(new View.OnClickListener(){
     			//@Override
     			public void onClick(View view){
     				// go to account creation screen (not created)
-    				editor.putString("login", "wugs");
-    				editor.putString("password", "*******");
-    				editor.commit();
-    				loginText.setText("wugs");
-    		    	passwordText.setText("*******");
-    		    	
     		    	loginView.setVisibility(View.INVISIBLE);
     		    	Intent i = new Intent(GPSActivity.this, CreateAccountActivity.class);
     		    	startActivity(i);
+    		    	
+    		    	Log.d("GPS account button listener", "<- check it out");
+    		    	loginText.setText(settings.getString("current login", ""));
+    		    	passwordText.setText(settings.getString("current password", ""));
+    		    	
+    		    	String login = settings.getString("current login", "");
+    		    	String password = settings.getString("current password", "");
+    		    	Toast.makeText(this_reference, "login: " + login + "; password: " + password, Toast.LENGTH_LONG).show();
     		    	loginView.setVisibility(View.VISIBLE);
     			}
     		});
@@ -313,39 +334,22 @@ public class GPSActivity extends MapActivity {
     	}
     }
     
-    private void runSplashThread(){
-    	 splashView = inflater.inflate(R.layout.splash, null);
-         addContentView(splashView, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.FILL_PARENT));
-         
-    	  Thread splash_thread = new Thread() {
-          	@Override
-          	public void run(){
-          		addContentView(splashView, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.FILL_PARENT));
-                
-          		try{
-          			int wait_time = 0;
-          			while(wait_time <= splash_window){
-          				sleep(100);
-          				wait_time += 100;
-          				//System.out.println("splash screen waited");
-          			}
-          		}catch(Exception e){
-          			System.out.println("Error in splash screen:");
-          			e.printStackTrace();
-          		}finally{
-          			//((ViewGroup)splashView.getParent()).removeView(splashView);
-          			try{
-          				splashView.setVisibility(View.INVISIBLE);
-          			//loginView.setVisibility(View.VISIBLE);
-          			//loginView.requestFocus();
-          			}catch(Exception e){
-          				System.out.println("Error in splash screen:");
-          				Log.e("Error in splash screen", "error: " + e.toString());
-              			e.printStackTrace();
-          			}
-          		}
-          	}
-          };
-          splash_thread.start();
+    protected void login(){
+    	 //AsyncTaskify this
+        id = settings.getInt("current id", -1);
+        if(id < 0){
+        	loginView.setVisibility(View.VISIBLE);
+        	
+        	logged_in = false;
+        }else{
+        	mapView.setVisibility(View.VISIBLE);
+        	logged_in = true;
+        	Toast.makeText(this, settings.getString("current login", "") + " logged in", Toast.LENGTH_SHORT).show();
+        	
+        	Drawable drawable = this.getResources().getDrawable(R.drawable.point);
+            itemizedoverlay = new Overlays(this, drawable, id, myLocationOverlay);
+
+            getLocations(Server.showLocations());
+        }
     }
 }

@@ -25,4 +25,5 @@
       <item>Senior</item>
   </string-array>
       <string name="c_create_account_button">Create Account</string>
+  <string name="splash_name">Splash Screen</string>
 </resources>

@@ -14,18 +14,20 @@ import android.util.Log;
 
 public class Server {
 
-    public static int register(String name, int year) {
+	// username/password/name/year
+    public static int register(String login, String password, String name, int year) {
         try {
             HttpClient client = new DefaultHttpClient();
             HttpGet request = new HttpGet();
-            String address = "http://vivid-ocean-9711.heroku.com/register/" + name + "/" + year + ".json";
+            String address = "http://vivid-ocean-9711.heroku.com/register/" + login + "/" + password + "/" + name + "/" + year + ".json";
             request.setURI(new URI(address.replace(" ", "%20")));
             String content = client.execute(request, new BasicResponseHandler());
-            Log.d("register", "content: " + content);
+          //  Log.d("register", "content: " + content);
             
             JSONObject response = new JSONObject(content);
             JSONObject user = (JSONObject) response.get("user");
-            Log.d("register", "user: " + user.toString());
+           // Log.d("register", "user: " + user.toString());
+            //Log.d("register", "user id: " + user.getInt("id"));
             return user.getInt("id");
         } catch (Exception e) {
         	Log.e("register", "Problem in register");

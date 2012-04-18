@@ -29,6 +29,10 @@ import android.view.ViewGroup;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.app.Activity;
+import android.content.res.Configuration;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 
 public class GPSActivity extends MapActivity {
     private MapController mapController;
@@ -59,8 +63,12 @@ public class GPSActivity extends MapActivity {
 
     private Handler handler;
     
+    private NotificationManager nManager;
+    private Notification notification;
+    
     public static final String PREFS_NAME = "PrefsFile";
     public static final String TAG = "GPSActivity";
+    private static final int NOTIFICATION_ID = 1;
     
     public void onCreate(Bundle bundle) {
         super.onCreate(bundle);
@@ -293,7 +301,22 @@ public class GPSActivity extends MapActivity {
         myLocationOverlay.disableMyLocation();
         myLocationOverlay.disableCompass();
     }
+    
+    @Override
+	protected void onDestroy(){
+		super.onDestroy();
+		try{
+			nManager.cancelAll();
+		}catch(Exception e){
+			// if it doesn't work, program exited before nManager instanced, so who cares
+		}
+	}
 
+    @Override
+    public void onConfigurationChanged(Configuration newConfig){
+    	super.onConfigurationChanged(newConfig);
+    }
+    
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -306,6 +329,7 @@ public class GPSActivity extends MapActivity {
         switch (item.getItemId()) {
 			case R.id.quit_button:
 				super.finish();
+				nManager.cancelAll();
 				return true;
 			case R.id.about:
                 startActivity(new Intent(this, AboutActivity.class));
@@ -318,6 +342,8 @@ public class GPSActivity extends MapActivity {
 				mapView.setVisibility(View.INVISIBLE);
 				loginView.setVisibility(View.VISIBLE);
 				loginView.requestFocus();
+				
+				nManager.cancelAll();
 				
 				Toast.makeText(this, settings.getString("current login", "") + " logged out", Toast.LENGTH_SHORT).show();
 				
@@ -411,13 +437,76 @@ public class GPSActivity extends MapActivity {
 
             if(!loggedin)
                 Toast.makeText(this_reference, "Login failed", Toast.LENGTH_LONG).show();
-            else
-                Toast.makeText(this, settings.getString("login", "") + " logged in", Toast.LENGTH_SHORT).show();
+            //else
+            //    Toast.makeText(this, settings.getString("login", "") + " logged in", Toast.LENGTH_SHORT).show();
         	
         	Drawable drawable = this.getResources().getDrawable(R.drawable.point);
             itemizedoverlay = new Overlays(this, drawable, id, myLocationOverlay);
 
             getLocations(Server.showLocations());
+            
+            createNotification();
         }
+    }
+    
+    protected void createNotification(){
+    	nManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+    	
+    	int icon = R.drawable.ic_launcher;
+    	CharSequence tickerText = "Logged onto Mobile Lunch Meet";
+    	long when = System.currentTimeMillis();  	
+    	notification = new Notification(icon, tickerText, when);
+    
+    	Context context = getApplicationContext();
+    	CharSequence contentTitle = "Mobile Lunch Meet";
+    	CharSequence contentText = "Looking for a lunch partner";
+    	Intent notificationIntent = new Intent(this, GPSActivity.class);
+    	PendingIntent contentIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0);
+    	
+    	notification.setLatestEventInfo(context, contentTitle, contentText, contentIntent);
+    	notification.flags |= Notification.FLAG_ONGOING_EVENT;
+        
+    	try{
+    		nManager.notify(NOTIFICATION_ID, notification);
+    	}catch(Exception e){
+    		Log.e("GPSActivity.createNotification", "Error while creating notification: " + e.toString());
+    		e.printStackTrace();
+    	}
+    	
+    	notification.defaults |= Notification.DEFAULT_VIBRATE;
+    }
+    
+    protected void matchNotification(){
+    	Context context = getApplicationContext();
+    	CharSequence contentTitle = "Mobile Lunch Meet";
+    	CharSequence contentText = "Someone wants to have lunch with you!";
+    	Intent notificationIntent = new Intent(this, GPSActivity.class);
+    	PendingIntent contentIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0);
+    	
+    	notification.setLatestEventInfo(context, contentTitle, contentText, contentIntent);
+    	try{
+    		nManager.notify(NOTIFICATION_ID, notification);
+    	}catch(Exception e){
+    		Log.e("GPSActivity.matchNotification", "Error while attempting match notification: " + e.toString());
+    		e.printStackTrace();
+    	}
+    }
+    
+    protected void rejectMatchNotification(){
+    	Context context = getApplicationContext();
+    	CharSequence contentTitle = "Mobile Lunch Meet";
+    	CharSequence contentText = "Looking for a lunch partner!";
+    	Intent notificationIntent = new Intent(this, GPSActivity.class);
+    	PendingIntent contentIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0);
+    	
+    	notification.defaults |= Notification.DEFAULT_VIBRATE;
+    	notification.setLatestEventInfo(context, contentTitle, contentText, contentIntent);
+    	try{
+    		nManager.notify(NOTIFICATION_ID, notification);
+    	}catch(Exception e){
+    		Log.e("GPSActivity.rejectMatchNotification", "Error while attempting reject match notification: " + e.toString());
+    		e.printStackTrace();
+    	}
+    	notification.defaults |= Notification.DEFAULT_VIBRATE;
     }
 }

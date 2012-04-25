@@ -3,6 +3,7 @@ package com.cellphones.mobilelunchmeet;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
@@ -67,6 +68,11 @@ public class CreateAccountActivity extends Activity{
 	     createButtonListeners();
 	 }
 	
+	@Override
+    public void onConfigurationChanged(Configuration newConfig){
+    	super.onConfigurationChanged(newConfig);
+    }
+	
 	private void createButtonListeners(){
 		try{
     		c_accountButton.setOnClickListener(new View.OnClickListener(){
@@ -97,7 +103,7 @@ public class CreateAccountActivity extends Activity{
     					return false;
     				}
     				
-    				if(settings.getInt("id", -1) != -1){
+    				if(settings.getInt(loginText, -1) != -1){
     					Toast.makeText(this_reference, "Account already exists", Toast.LENGTH_LONG).show();
     					return false;
     				}	
@@ -114,6 +120,10 @@ public class CreateAccountActivity extends Activity{
     				editor.putString("login", loginText);
     				editor.putString("password", passwordText);
 					editor.putInt("id", user_id);
+					
+					editor.putInt(loginText,user_id);
+					editor.putInt(passwordText, user_id);
+					
     				editor.commit();
 
     				return true;

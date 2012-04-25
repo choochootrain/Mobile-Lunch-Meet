@@ -21,11 +21,13 @@
         </activity>
         <activity android:name="AboutActivity"
                   android:label="@string/about_name"
-                  android:configChanges="orientation">
+                  android:configChanges="orientation"
+                  android:screenOrientation="portrait">
         </activity>
         <activity android:name="GPSActivity"
                   android:label="@string/gps_name"
                   android:configChanges="orientation"
+                  android:screenOrientation="portrait"
                   android:launchMode="singleTask">
          <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -34,11 +36,13 @@
         </activity>
         <activity android:name="CreateAccountActivity"
                   android:label="@string/create_account_name"
-                  android:configChanges="orientation">
+                  android:configChanges="orientation"
+                  android:screenOrientation="portrait">
         </activity>
         <activity android:name="SplashActivity"
                   android:label="@string/splash_name"
-                  android:configChanges="orientation">
+                  android:configChanges="orientation"
+                  android:screenOrientation="portrait">
         </activity>
     </application>
 </manifest>

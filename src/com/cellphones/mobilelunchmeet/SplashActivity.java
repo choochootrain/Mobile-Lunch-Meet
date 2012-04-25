@@ -2,6 +2,7 @@ package com.cellphones.mobilelunchmeet;
 
 
 import android.content.Context;
+import android.content.res.Configuration;
 import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
@@ -52,6 +53,11 @@ public class SplashActivity extends Activity{
 	    }
 	    return true;
 	}
+	
+	@Override
+    public void onConfigurationChanged(Configuration newConfig){
+    	super.onConfigurationChanged(newConfig);
+    }
 	
 	@Override
 	protected void onDestroy(){

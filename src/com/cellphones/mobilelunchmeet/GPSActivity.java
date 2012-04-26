@@ -11,6 +11,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.provider.SyncStateContract.Constants;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -47,14 +48,14 @@ public class GPSActivity extends MapActivity {
 
     private boolean logged_in;
     
-    private View loginView;
-    private View splashView;
-    private LayoutInflater inflater;
+    //private LayoutInflater inflater;
 
+    /*
     private EditText loginText;
     private EditText passwordText;
     private Button loginButton;
     private Button accountButton;
+    */
     
     private Activity this_reference;
     
@@ -69,36 +70,29 @@ public class GPSActivity extends MapActivity {
     public static final String PREFS_NAME = "PrefsFile";
     public static final String TAG = "GPSActivity";
     private static final int NOTIFICATION_ID = 1;
+    private static final int LOGIN_REQUEST_CODE = 1;
+    private static final int SPLASH_REQUEST_CODE = 3;
     
     public void onCreate(Bundle bundle) {
         super.onCreate(bundle);
         this_reference = this;
         
-        inflater = getLayoutInflater();
+        //inflater = getLayoutInflater();
         
         setContentView(R.layout.map);
         
-        //splashView = inflater.inflate(R.layout.splash, null);
-        //addContentView(splashView, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.FILL_PARENT));
         Intent i = new Intent(GPSActivity.this, SplashActivity.class);
-        startActivity(i);
+        startActivityForResult(i, SPLASH_REQUEST_CODE);
         
         settings = getSharedPreferences(PREFS_NAME, 0);
         editor = settings.edit();
-        
-        loginView = inflater.inflate(R.layout.login, null);
-        addContentView(loginView, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.FILL_PARENT));
-        initLoginView();
-        loginView.setVisibility(View.INVISIBLE);
-        
+            
         mapView = (MapView) findViewById(R.id.map);
         mapView.setBuiltInZoomControls(true);
-        mapView.setVisibility(View.INVISIBLE);
         
         mapController = mapView.getController();
         mapController.setZoom(17);
-        mapView.setVisibility(View.INVISIBLE);
-
+       
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000,
                 10, (LocationListener) new GeoUpdateHandler());
@@ -130,7 +124,6 @@ public class GPSActivity extends MapActivity {
         editor.putInt("id", id);
         editor.commit();
         */
-        login();
 
         Thread partnerUpdate = new Thread() {
             @Override
@@ -305,12 +298,49 @@ public class GPSActivity extends MapActivity {
     @Override
 	protected void onDestroy(){
 		super.onDestroy();
+		
+		Server.logout(settings.getString("login", "").toLowerCase());
+		
 		try{
 			nManager.cancelAll();
 		}catch(Exception e){
 			// if it doesn't work, program exited before nManager instanced, so who cares
 		}
 	}
+    
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data){
+    	super.onActivityResult(requestCode,  resultCode, data);
+    	
+    	if(requestCode == LOGIN_REQUEST_CODE){
+    		switch(resultCode){
+	    	case 1: // user successfully logged in
+	    		logged_in = true;
+	    		mapView.setVisibility(View.VISIBLE);
+	    		createNotification();
+	    		
+	    		settings = getSharedPreferences(PREFS_NAME, 0);
+	            editor = settings.edit();
+	            id = settings.getInt("id", -1);
+	            
+	    		break;
+	    	case 5: // quit button pressed
+	    		super.finish();
+	    		break;
+	    	default:
+	    		break;
+	    	}	
+    	}else if(requestCode == SPLASH_REQUEST_CODE){
+    		//Log.d("GPSActivity.onActivityResult", "splash activity finished");
+    		switch(resultCode){
+    		case 1:
+    			login();
+    			break;
+    		default:
+    			break;
+    		}
+    	}
+    }
 
     @Override
     public void onConfigurationChanged(Configuration newConfig){
@@ -338,14 +368,21 @@ public class GPSActivity extends MapActivity {
 				// switch to login screen
 				//super.finish();
 				logged_in = false;
-				Server.logout(settings.getString("current login", ""));
-				mapView.setVisibility(View.INVISIBLE);
-				loginView.setVisibility(View.VISIBLE);
-				loginView.requestFocus();
 				
+				Server.logout(settings.getString("login", "").toLowerCase());
 				nManager.cancelAll();
+				Toast.makeText(this, settings.getString("login", "") + " logged out", Toast.LENGTH_SHORT).show();
 				
-				Toast.makeText(this, settings.getString("current login", "") + " logged out", Toast.LENGTH_SHORT).show();
+				editor.putInt("id", -1);
+				editor.commit();
+				
+				mapView.setVisibility(View.INVISIBLE);
+				Intent i = new Intent(GPSActivity.this, LoginActivity.class);
+				startActivityForResult(i, LOGIN_REQUEST_CODE);
+				
+				return true;
+			case R.id.info_button:
+				
 				
 				return true;
             default:
@@ -353,6 +390,7 @@ public class GPSActivity extends MapActivity {
         }
     }
 
+    /*
     protected void initLoginView(){
     	loginText = (EditText) findViewById(R.id.login_input);
     	passwordText = (EditText) findViewById(R.id.password_input);
@@ -411,6 +449,7 @@ public class GPSActivity extends MapActivity {
     		    	loginView.setVisibility(View.INVISIBLE);
     		    	Intent i = new Intent(GPSActivity.this, CreateAccountActivity.class);
     		    	startActivity(i);
+    		    	startActivityForResult(i, LOGIN_REQUEST_CODE);
 
     		    	loginView.setVisibility(View.VISIBLE);
     			}
@@ -421,24 +460,33 @@ public class GPSActivity extends MapActivity {
     		e.printStackTrace();
     	}
     }
+    */
     
     protected void login(){
-    	 //AsyncTaskify this
-        id = settings.getInt("id", -1);
+    	id = settings.getInt("id", -1);
+        
         if(id < 0){
-        	loginView.setVisibility(View.VISIBLE);
-        	
+        	mapView.setVisibility(View.INVISIBLE);
         	logged_in = false;
+        	
+        	Intent i = new Intent(GPSActivity.this, LoginActivity.class);
+	    	startActivityForResult(i, LOGIN_REQUEST_CODE);
+	    	
         }else{
-        	mapView.setVisibility(View.VISIBLE);
         	logged_in = true;
 
-            boolean loggedin = Server.login(settings.getString("login", ""), settings.getString("password", ""));
+            boolean loggedin = Server.login(settings.getString("login", "").toLowerCase(), settings.getString("password", ""));
 
-            if(!loggedin)
-                Toast.makeText(this_reference, "Login failed", Toast.LENGTH_LONG).show();
-            //else
-            //    Toast.makeText(this, settings.getString("login", "") + " logged in", Toast.LENGTH_SHORT).show();
+            if(!loggedin){
+                Toast.makeText(this_reference, "Login to server failed", Toast.LENGTH_LONG).show();
+                
+                mapView.setVisibility(View.INVISIBLE);
+            	logged_in = false;
+            	
+            	Intent i = new Intent(GPSActivity.this, LoginActivity.class);
+    	    	startActivityForResult(i, LOGIN_REQUEST_CODE);
+    	    	return;
+            }
         	
         	Drawable drawable = this.getResources().getDrawable(R.drawable.point);
             itemizedoverlay = new Overlays(this, drawable, id, myLocationOverlay);

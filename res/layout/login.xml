@@ -3,7 +3,8 @@
     android:id="@+id/RelativeLayout1"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_margin="20dp" >
+    android:layout_margin="20dp"
+    android:background="#ffa500" >
 	
     <TextView
         android:id="@+id/login_text"
@@ -13,7 +14,8 @@
         android:layout_alignParentTop="true"
         android:layout_marginLeft="48dp"
         android:layout_marginTop="50dp"
-        android:text="@string/login_text" />
+        android:text="@string/login_text"
+        android:textColor="#0000cd" />
 
     <TextView
         android:id="@+id/password_text"
@@ -22,7 +24,8 @@
         android:layout_alignRight="@+id/login_text"
         android:layout_below="@+id/login_text"
         android:layout_marginTop="26dp"
-        android:text="@string/password_text" />
+        android:text="@string/password_text"
+        android:textColor="#0000cd" />
 
     <EditText
         android:id="@+id/login_input"

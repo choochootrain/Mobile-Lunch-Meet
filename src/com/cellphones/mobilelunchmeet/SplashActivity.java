@@ -39,6 +39,7 @@ public class SplashActivity extends Activity{
 		        } catch(InterruptedException e) {
 		            // do nothing
 		        } finally{
+		        	this_reference.setResult(1);
 		            this_reference.finish();
 		        }
 			}
@@ -63,5 +64,6 @@ public class SplashActivity extends Activity{
 	protected void onDestroy(){
 		super.onDestroy();
 		((ViewGroup)splashView.getParent()).removeView(splashView);
+		//Log.d("SplashActivity.onDestroy()", "splash activity destruction callback made");
 	}
 }

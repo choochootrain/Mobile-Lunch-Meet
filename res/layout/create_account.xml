@@ -1,27 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent"
+    android:background="#ffa500" >
 
     <TextView
         android:id="@+id/c_login_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:layout_marginTop="48dp"
+        android:layout_marginTop="80dp"
         android:layout_marginLeft="50dp"
         android:text="@string/login_text"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="#0000cd" />
+    
+     <TextView
+         android:id="@+id/c_name_text"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:layout_alignRight="@+id/c_login_text"
+         android:layout_below="@+id/c_login_text"
+         android:layout_marginTop="27dp"
+         android:text="@string/c_name_text"
+         android:textAppearance="?android:attr/textAppearanceMedium"
+         android:textColor="#0000cd" />
 
     <TextView
         android:id="@+id/c_password_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignRight="@+id/c_login_text"
-        android:layout_below="@+id/c_login_text"
+        android:layout_below="@+id/c_name_text"
         android:layout_marginTop="27dp"
         android:text="@string/password_text"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="#0000cd" />
 
     <TextView
         android:id="@+id/c_repeat_password_text"
@@ -32,7 +46,8 @@
         android:layout_marginTop="10dp"
         android:gravity="right"
         android:text="@string/repeat_password_text"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="#0000cd" />
 
     <TextView
         android:id="@+id/c_year_text"
@@ -42,17 +57,26 @@
         android:layout_below="@+id/c_repeat_password_text"
         android:layout_marginTop="27dp"
         android:text="@string/year_text"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="#0000cd" />
 
     <EditText
         android:id="@+id/c_login_input"
         android:layout_width="180dp"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/c_login_text"
-        android:layout_alignParentRight="true"
-        android:layout_marginRight="15dp"
+        android:layout_marginLeft="15dp"
+        android:layout_toRightOf="@+id/c_login_text"
         android:inputType="text" />
     
+     <EditText
+        android:id="@+id/c_name_input"
+        android:layout_width="180dp"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/c_login_input"
+        android:layout_alignBottom="@+id/c_name_text"
+        android:inputType="text" />
+     
      <EditText
         android:id="@+id/c_password_input"
         android:layout_width="180dp"
@@ -85,5 +109,16 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="30dp"
         android:text="@string/c_create_account_button" />
+
+    <TextView
+        android:id="@+id/c_error_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/c_login_input"
+        android:layout_alignLeft="@+id/c_login_input"
+        android:text=""
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="#ff0000" />
+
     
 </RelativeLayout>

@@ -6,6 +6,7 @@
   <string name="about_text">K so this is where we put the about stuff and stuff.</string>
   <string name="get_json_name">Get JSON Data</string>
   <string name="gps_name">Mobile Lunch Meet</string>
+  <string name="login_name">Mobile Lunch Meet</string>
   <string name="create_account_name">Create Account</string>
   <string name="create_account_button">Create an account?</string>
   <string name="login_button">Login</string>
@@ -26,4 +27,6 @@
   </string-array>
       <string name="c_create_account_button">Create Account</string>
   <string name="splash_name">Splash Screen</string>
+  <string name="c_name_text">name</string>
+  <string name="info_button">Info</string>
 </resources>

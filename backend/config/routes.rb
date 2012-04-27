@@ -19,6 +19,8 @@ Lunch::Application.routes.draw do
   match "match/:id" => "users#closestMatch"
   match "partner/:id" => "users#partner"
 
+  match "changeinfo/:id/:name/:year" => "users#changeinfo"
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

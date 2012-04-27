@@ -23,6 +23,24 @@ class UsersController < ApplicationController
     end
   end
 
+  def changeinfo
+    user = User.find_by_id(params[:id])
+    response = -1
+
+    if user.nil?
+      response = 0  
+    else
+      user.name = params[:name]
+      user.year = params[:year]
+      user.save
+      response = 1
+    end
+
+    respond_to do |format|
+      format.json { render :json => response }
+    end
+  end
+
   def login
     user = User.find_by_username(params[:username])
     response = -1

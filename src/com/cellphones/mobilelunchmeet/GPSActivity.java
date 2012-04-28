@@ -48,16 +48,9 @@ public class GPSActivity extends MapActivity {
 
     private boolean logged_in;
     
-    //private LayoutInflater inflater;
-
-    /*
-    private EditText loginText;
-    private EditText passwordText;
-    private Button loginButton;
-    private Button accountButton;
-    */
-    
     private Activity this_reference;
+    private Button locateButton;
+    private Button matchButton;
     
     private SharedPreferences settings;
     private SharedPreferences.Editor editor;
@@ -72,6 +65,7 @@ public class GPSActivity extends MapActivity {
     private static final int NOTIFICATION_ID = 1;
     private static final int LOGIN_REQUEST_CODE = 1;
     private static final int SPLASH_REQUEST_CODE = 3;
+    private static final int CHANGE_INFO_REQUEST_CODE = 4;
     
     public void onCreate(Bundle bundle) {
         super.onCreate(bundle);
@@ -180,6 +174,8 @@ public class GPSActivity extends MapActivity {
         getLocations(Server.showLocations());
 		*/
 
+        initButtons();
+        
         handler = new Handler();
 
         Runnable refreshTask = new Runnable()
@@ -339,6 +335,17 @@ public class GPSActivity extends MapActivity {
     		default:
     			break;
     		}
+    	}else if(requestCode == CHANGE_INFO_REQUEST_CODE){
+    		switch(resultCode){
+    		case 1:
+    			mapView.setVisibility(View.VISIBLE);
+    			break;
+    		case 5:
+    			super.finish();
+    			break;
+    		default:
+    			break;
+    		}
     	}
     }
 
@@ -356,6 +363,7 @@ public class GPSActivity extends MapActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+    	Intent i;
         switch (item.getItemId()) {
 			case R.id.quit_button:
 				super.finish();
@@ -377,90 +385,20 @@ public class GPSActivity extends MapActivity {
 				editor.commit();
 				
 				mapView.setVisibility(View.INVISIBLE);
-				Intent i = new Intent(GPSActivity.this, LoginActivity.class);
+				i = new Intent(GPSActivity.this, LoginActivity.class);
 				startActivityForResult(i, LOGIN_REQUEST_CODE);
 				
 				return true;
 			case R.id.info_button:
-				
+				mapView.setVisibility(View.INVISIBLE);
+				i = new Intent(GPSActivity.this, InfoActivity.class);
+				startActivityForResult(i, CHANGE_INFO_REQUEST_CODE);
 				
 				return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
-
-    /*
-    protected void initLoginView(){
-    	loginText = (EditText) findViewById(R.id.login_input);
-    	passwordText = (EditText) findViewById(R.id.password_input);
-    	loginButton = (Button) findViewById(R.id.login_button);
-        accountButton = (Button) findViewById(R.id.create_account_button);
-
-    	populateLogin();
-
-        createLoginListeners();
-    }
-
-    protected void populateLogin(){
-    	String login = settings.getString("login", "");
-        String password = settings.getString("password", "");
-    	loginText.setText(login);
-    	passwordText.setText(password);
-    }
-
-    protected void createLoginListeners(){
-    	try{
-    		loginButton.setOnClickListener(new View.OnClickListener(){
-    			//@Override
-    			public void onClick(View view){
-    				// switch focus to GPSActivity if login checks out
-    				String login_text = loginText.getText().toString();
-    				int id = settings.getInt("id", -1);
-    				if(id == -1){
-    					Toast.makeText(this_reference, "login \"" + login_text + "\" does not exist", Toast.LENGTH_LONG).show();
-    					return;
-    				}
-    				
-                    String login = settings.getString("login", "");
-    				String password_text = passwordText.getText().toString();
-    				String password = settings.getString("password", "");
-    				if(!password.equals(password_text) || password.equals("") || !login.equals(login_text) || login.equals("")) {
-    					Toast.makeText(this_reference, "Invalid credentials", Toast.LENGTH_LONG).show();
-    					return;
-    				}
-
-                    boolean loggedin = Server.login(login_text.toLowerCase(), password_text);
-                    
-                    if(!loggedin)
-                        Toast.makeText(this_reference, "Login failed", Toast.LENGTH_LONG).show();
-    				
-    				loginView.setVisibility(View.INVISIBLE);
-    				mapView.setVisibility(View.VISIBLE);
-    				mapView.requestFocus();
-    				
-    				login();
-    			}
-    		});
-    		accountButton.setOnClickListener(new View.OnClickListener(){
-    			//@Override
-    			public void onClick(View view){
-    				// go to account creation screen (not created)
-    		    	loginView.setVisibility(View.INVISIBLE);
-    		    	Intent i = new Intent(GPSActivity.this, CreateAccountActivity.class);
-    		    	startActivity(i);
-    		    	startActivityForResult(i, LOGIN_REQUEST_CODE);
-
-    		    	loginView.setVisibility(View.VISIBLE);
-    			}
-    		});
-    	}catch(Exception e){
-    		System.out.println("Error while creating login listeners");
-    		Log.e("ERROR", "Error in createLoginListeners: " + e.toString());
-    		e.printStackTrace();
-    	}
-    }
-    */
     
     protected void login(){
     	id = settings.getInt("id", -1);
@@ -556,5 +494,34 @@ public class GPSActivity extends MapActivity {
     		e.printStackTrace();
     	}
     	notification.defaults |= Notification.DEFAULT_VIBRATE;
+    }
+    
+    protected void initButtons(){
+    	locateButton = (Button) findViewById(R.id.locate_button);
+    	matchButton = (Button) findViewById(R.id.find_match_button);
+    }
+    
+    protected void createButtonListeners(){
+    	try{
+    		locateButton.setOnClickListener(new View.OnClickListener(){
+    			//@Override
+    			public void onClick(View view){ 
+    				// center map on self
+    	             GeoPoint p = new GeoPoint((int)(1E6 * previous.getLatitude()), (int)(1E6 * previous.getLongitude()));
+    	             mapController.animateTo(p);
+    	             locationCentered = true;
+    			}
+    		});
+    		matchButton.setOnClickListener(new View.OnClickListener(){
+    			//@Override
+    			public void onClick(View view){
+    				// find closest match
+    			}
+    		});
+    	}catch(Exception e){
+    		System.out.println("Error while creating login listeners");
+    		Log.e("GPSActivity.creatButtonListeners", e.toString());
+    		e.printStackTrace();
+    	}
     }
 }

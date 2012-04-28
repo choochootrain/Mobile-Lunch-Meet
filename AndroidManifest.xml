@@ -44,5 +44,15 @@
                   android:configChanges="orientation"
                   android:screenOrientation="portrait">
         </activity>
+         <activity android:name="LoginActivity"
+                  android:label="@string/login_name"
+                  android:configChanges="orientation"
+                  android:screenOrientation="portrait">
+        </activity>
+         <activity android:name="InfoActivity"
+                  android:label="@string/login_name"
+                  android:configChanges="orientation"
+                  android:screenOrientation="portrait">
+        </activity>
     </application>
 </manifest>

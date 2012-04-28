@@ -167,4 +167,15 @@ public class Server {
         }
         return -1;
     }
+    
+    public static void changeInfo(int id, String name, int year) {
+        try {
+            HttpClient client = new DefaultHttpClient();
+            HttpGet request = new HttpGet();
+            request.setURI(new URI("http://vivid-ocean-9711.heroku.com/changeInfo/" + id + "/" + name + "/" + year + ".json"));
+            String content = client.execute(request, new BasicResponseHandler());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }

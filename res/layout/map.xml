@@ -11,5 +11,23 @@
         android:layout_height="fill_parent"
         android:clickable="true"
         android:apiKey="0XokUp-0d-WbX3iQL8PNAYZyPr0injRRB1RFsAg" />
+    
+     <Button
+        android:id="@+id/locate_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="80dp"
+        android:layout_marginTop="460dp"
+        android:text="@string/locate_button"/>
+
+
+    <Button
+        android:id="@+id/find_match_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_toRightOf="@+id/locate_button"
+        android:layout_alignTop="@+id/locate_button"
+        android:text="@string/match_button" />
 
 </RelativeLayout>

@@ -434,9 +434,8 @@ public class GPSActivity extends MapActivity {
     
     protected void createNotification(){
     	nManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-    	
     	int icon = R.drawable.ic_launcher;
-    	CharSequence tickerText = "Logged onto Lunchee";                                                                                                                                                                                                                                                                                                      ";
+    	CharSequence tickerText = "Logged onto Lunchee";
     	long when = System.currentTimeMillis();  	
     	notification = new Notification(icon, tickerText, when);
     

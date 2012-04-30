@@ -60,7 +60,6 @@ public class Overlays extends BalloonItemizedOverlay<OverlayItem> {
     }
 
     public boolean onBalloonTap(int index, OverlayItem overlayItem) {
-        Toast.makeText(context, "Tapped", Toast.LENGTH_LONG).show();
         if (overlayItem.getTitle().equals("You")) {
             AlertDialog.Builder builder = new AlertDialog.Builder(context);
             builder.setMessage("Would you like to be randomly matched with someone near you?");
@@ -93,6 +92,7 @@ public class Overlays extends BalloonItemizedOverlay<OverlayItem> {
         public void onClick(DialogInterface dialog, int which) {
             int otherid = gps.match();
             Toast.makeText(context, "You have been matched to " + Server.getName(otherid) + ". Waiting for " + Server.getName(otherid) + " to respond...start polling here", Toast.LENGTH_LONG).show();
+            gps.waitForResponse(otherid);
         }
     }
 
@@ -107,6 +107,7 @@ public class Overlays extends BalloonItemizedOverlay<OverlayItem> {
         public void onClick(DialogInterface dialog, int which) {
             gps.matchTo(Server.getId(name));
             Toast.makeText(context, "Waiting for " + name + " to respond...start polling here", Toast.LENGTH_LONG).show();
+            gps.waitForResponse(Server.getId(name));
         }
     }
 }

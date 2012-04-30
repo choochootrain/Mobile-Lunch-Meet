@@ -5,5 +5,5 @@
           android:icon="@drawable/ic_launcher"
           android:title="@string/about_name" />
     <item android:id="@+id/quit_button" android:title="@string/quit_button" android:icon="@android:drawable/ic_menu_close_clear_cancel"></item>
-    
+
 </menu>

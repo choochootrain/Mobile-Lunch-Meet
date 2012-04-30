@@ -10,6 +10,7 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -165,8 +166,11 @@ public class GPSActivity extends MapActivity {
         refreshTask.run();
     }
 
-    private void showDirections(int match) {
-        long end_lat = 0, end_long = 0;
+    private void showDirections(int id) {
+        GeoPoint p = Server.getLocation(id);
+        double end_lat = p.getLatitudeE6()/1000000.0;
+        double end_long = p.getLongitudeE6()/1000000.0;
+        
         if (previous != null) {
             double lat = previous.getLatitude();
             double lon = previous.getLongitude();
@@ -181,6 +185,11 @@ public class GPSActivity extends MapActivity {
     @Override
     protected boolean isRouteDisplayed() {
         return false;
+    }
+
+    public void waitForResponse(int otherid) {
+        WaitForResponseTask task = new WaitForResponseTask(this);
+        task.execute();
     }
 
     public class GeoUpdateHandler implements LocationListener {
@@ -424,12 +433,12 @@ public class GPSActivity extends MapActivity {
     	nManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
     	
     	int icon = R.drawable.ic_launcher;
-    	CharSequence tickerText = "Logged onto Mobile Lunch Meet";
+    	CharSequence tickerText = "Logged onto Lunchee";
     	long when = System.currentTimeMillis();  	
     	notification = new Notification(icon, tickerText, when);
     
     	Context context = getApplicationContext();
-    	CharSequence contentTitle = "Mobile Lunch Meet";
+    	CharSequence contentTitle = "Lunchee";
     	CharSequence contentText = "Looking for a lunch partner";
     	Intent notificationIntent = new Intent(this, GPSActivity.class);
     	PendingIntent contentIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0);
@@ -500,7 +509,8 @@ public class GPSActivity extends MapActivity {
     		matchButton.setOnClickListener(new View.OnClickListener(){
     			//@Override
     			public void onClick(View view){
-                    match();
+                    int id = match();
+                    Toast.makeText(GPSActivity.this, "" + id, Toast.LENGTH_LONG).show();
     			}
     		});
     	}catch(Exception e){
@@ -519,8 +529,6 @@ public class GPSActivity extends MapActivity {
                 throw new JSONException("No match was found");
             JSONObject location = (JSONObject)o;
             int loc_id = location.getInt("user_id");
-            double end_lat = location.getDouble("lat");
-            double end_long = location.getDouble("long");
             return loc_id;
         } catch (JSONException e) {
             e.printStackTrace();
@@ -529,8 +537,9 @@ public class GPSActivity extends MapActivity {
         return -1;
     }
 
-    public void matchTo(int otherid) {
+    public int matchTo(int otherid) {
         JSONObject match = Server.match(id, otherid);
+        Log.e(TAG, id + " maches to " + otherid);
 
         try {
             Object o = match.get("location");
@@ -538,13 +547,56 @@ public class GPSActivity extends MapActivity {
                 throw new JSONException("No match was found");
             JSONObject location = (JSONObject)o;
             int loc_id = location.getInt("user_id");
-            double end_lat = location.getDouble("lat");
-            double end_long = location.getDouble("long");
-            Toast.makeText(this, "You are matched to " + Server.getName(loc_id), Toast.LENGTH_LONG).show();
-            showDirections(GPSActivity.this.match);
+            return loc_id;
         } catch (JSONException e) {
             e.printStackTrace();
             Toast.makeText(this, "Brb something broke.", Toast.LENGTH_LONG).show();
+        }
+        return -1;
+    }
+
+    private class WaitForResponseTask extends AsyncTask<Integer, Integer, Integer> {
+
+        private GPSActivity activity;
+        private ProgressDialog dialog;
+
+        public WaitForResponseTask(GPSActivity activity) {
+            this.activity = activity;
+            dialog = new ProgressDialog(activity);
+        }
+
+        protected void onPreExecute() {
+            this.dialog.setMessage("Waiting for response");
+            this.dialog.show();
+        }
+
+        @Override
+        protected Integer doInBackground(Integer... integers) {
+            int id = integers[0];
+            int result = 0;
+            while(true) {
+                result = Server.partner(id);
+                if (result == -1 || result == -2)
+                    break;
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+            return result;
+        }
+
+        protected void onProgressUpdate(Integer... progress) {
+
+        }
+
+        protected void onPostExecute(Integer result) {
+            if (dialog.isShowing()) {
+                dialog.dismiss();
+            }
+
+            activity.match = result;
         }
     }
 }

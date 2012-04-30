@@ -12,28 +12,28 @@
     </option>
   </component>
   <component name="AndroidLogFilters">
-    <option name="TOOL_WINDOW_LOG_LEVEL" value="WARN" />
+    <option name="TOOL_WINDOW_LOG_LEVEL" value="ERROR" />
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f3e957ee-5175-455a-b981-57655203d950" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/libraries.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/src.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/layout/balloon_overlay.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/com/cellphones/mobilelunchmeet/BalloonItemizedOverlay.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/com/cellphones/mobilelunchmeet/BalloonOverlayView.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/com/cellphones/mobilelunchmeet/OnSingleTapListener.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/com/cellphones/mobilelunchmeet/TapControlledMapView.java" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/com/cellphones/mobilelunchmeet/Locater.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/com/cellphones/mobilelunchmeet/MainActivity.java" afterPath="" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable/progress.xml" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/res/layout/main.xml" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/drawable-hdpi/ic_launcher.png" afterPath="$PROJECT_DIR$/res/drawable-hdpi/ic_launcher.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/drawable-hdpi/point.png" afterPath="$PROJECT_DIR$/res/drawable-hdpi/point.png" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/AndroidManifest.xml" afterPath="$PROJECT_DIR$/AndroidManifest.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/MobileLunchMeet.iml" afterPath="$PROJECT_DIR$/MobileLunchMeet.iml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/gen/com/cellphones/mobilelunchmeet/R.java" afterPath="$PROJECT_DIR$/gen/com/cellphones/mobilelunchmeet/R.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/layout/map.xml" afterPath="$PROJECT_DIR$/res/layout/map.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/layout/about.xml" afterPath="$PROJECT_DIR$/res/layout/about.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/layout/create_account.xml" afterPath="$PROJECT_DIR$/res/layout/create_account.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/layout/info.xml" afterPath="$PROJECT_DIR$/res/layout/info.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/layout/login.xml" afterPath="$PROJECT_DIR$/res/layout/login.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/layout/splash.xml" afterPath="$PROJECT_DIR$/res/layout/splash.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/menu/alternate.xml" afterPath="$PROJECT_DIR$/res/menu/alternate.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/menu/main.xml" afterPath="$PROJECT_DIR$/res/menu/main.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/values/strings.xml" afterPath="$PROJECT_DIR$/res/values/strings.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/cellphones/mobilelunchmeet/AboutActivity.java" afterPath="$PROJECT_DIR$/src/com/cellphones/mobilelunchmeet/AboutActivity.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/cellphones/mobilelunchmeet/GPSActivity.java" afterPath="$PROJECT_DIR$/src/com/cellphones/mobilelunchmeet/GPSActivity.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/cellphones/mobilelunchmeet/Overlays.java" afterPath="$PROJECT_DIR$/src/com/cellphones/mobilelunchmeet/Overlays.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/cellphones/mobilelunchmeet/Server.java" afterPath="$PROJECT_DIR$/src/com/cellphones/mobilelunchmeet/Server.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/cellphones/mobilelunchmeet/SplashActivity.java" afterPath="$PROJECT_DIR$/src/com/cellphones/mobilelunchmeet/SplashActivity.java" />
     </list>
     <ignored path="mobileLunchMeet.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -95,84 +95,7 @@
     <favorites_list name="mobileLunchMeet" />
   </component>
   <component name="FileEditorManager">
-    <leaf>
-      <file leaf-file-name="GPSActivity.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/cellphones/mobilelunchmeet/GPSActivity.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="523" column="26" selection-start="18605" selection-end="18605" vertical-scroll-proportion="0.0">
-              <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="class#3029:3337" expanded="false" />
-                <element signature="class#GeoUpdateHandler#0;class#GPSActivity#0" expanded="false" />
-                <element signature="method#getLocations#0;class#GPSActivity#0" expanded="false" />
-                <element signature="method#createMarker#0;class#GPSActivity#0" expanded="false" />
-                <element signature="method#createMarker#1;class#GPSActivity#0" expanded="false" />
-                <element signature="method#onResume#0;class#GPSActivity#0" expanded="false" />
-                <element signature="method#onPause#0;class#GPSActivity#0" expanded="false" />
-                <element signature="method#onDestroy#0;class#GPSActivity#0" expanded="false" />
-                <element signature="method#onActivityResult#0;class#GPSActivity#0" expanded="false" />
-                <element signature="method#onConfigurationChanged#0;class#GPSActivity#0" expanded="false" />
-                <element signature="method#onCreateOptionsMenu#0;class#GPSActivity#0" expanded="false" />
-                <element signature="method#onOptionsItemSelected#0;class#GPSActivity#0" expanded="false" />
-                <element signature="method#login#0;class#GPSActivity#0" expanded="false" />
-                <element signature="method#createNotification#0;class#GPSActivity#0" expanded="false" />
-                <element signature="method#matchNotification#0;class#GPSActivity#0" expanded="false" />
-                <element signature="method#rejectMatchNotification#0;class#GPSActivity#0" expanded="false" />
-                <element signature="method#initButtons#0;class#GPSActivity#0" expanded="false" />
-                <element signature="method#createButtonListeners#0;class#GPSActivity#0" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="strings.xml" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/res/values/strings.xml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="32" column="2" selection-start="1559" selection-end="1559" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Overlays.java" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/com/cellphones/mobilelunchmeet/Overlays.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="74" column="81" selection-start="2615" selection-end="2615" vertical-scroll-proportion="0.62992126">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="map.xml" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/res/layout/map.xml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="9" column="56" selection-start="393" selection-end="393" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="AndroidManifest.xml" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/AndroidManifest.xml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="10" column="38" selection-start="447" selection-end="447" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Server.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/cellphones/mobilelunchmeet/Server.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="257" column="0" selection-start="9517" selection-end="9517" vertical-scroll-proportion="0.0">
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-    </leaf>
+    <leaf />
   </component>
   <component name="FindManager">
     <FindUsagesManager>
@@ -187,22 +110,22 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/src/com/cellphones/mobilelunchmeet/CreateAccountActivity.java" />
-        <option value="$PROJECT_DIR$/res/values/strings.xml" />
-        <option value="$PROJECT_DIR$/res/layout/baloon.xml" />
-        <option value="$PROJECT_DIR$/res/layout/balloon.xml" />
-        <option value="$PROJECT_DIR$/gen/com/cellphones/mobilelunchmeet/BalloonOverlayView.java" />
-        <option value="$PROJECT_DIR$/gen/com/cellphones/mobilelunchmeet/BalloonItemizedOverlay.java" />
-        <option value="$PROJECT_DIR$/src/com/cellphones/mobilelunchmeet/BalloonOverlayView.java" />
-        <option value="$PROJECT_DIR$/res/layout/balloon_overlay.xml" />
-        <option value="$PROJECT_DIR$/res/values/drawables.xml" />
-        <option value="$PROJECT_DIR$/res/layout/map.xml" />
-        <option value="$PROJECT_DIR$/src/com/cellphones/mobilelunchmeet/TapControlledMapView.java" />
-        <option value="$PROJECT_DIR$/src/com/cellphones/mobilelunchmeet/OnSingleTapListener.java" />
         <option value="$PROJECT_DIR$/src/com/cellphones/mobilelunchmeet/BalloonItemizedOverlay.java" />
-        <option value="$PROJECT_DIR$/src/com/cellphones/mobilelunchmeet/Server.java" />
+        <option value="$PROJECT_DIR$/res/xml/locading.xml" />
+        <option value="$PROJECT_DIR$/res/xml/loading.xml" />
+        <option value="$PROJECT_DIR$/res/drawable/loading.xml" />
+        <option value="$PROJECT_DIR$/res/drawable/yellow-progress.xml" />
+        <option value="$PROJECT_DIR$/res/drawable/progress.xml" />
+        <option value="$PROJECT_DIR$/src/com/cellphones/mobilelunchmeet/SplashActivity.java" />
+        <option value="$PROJECT_DIR$/res/layout/splash.xml" />
+        <option value="$PROJECT_DIR$/res/layout/login.xml" />
+        <option value="$PROJECT_DIR$/res/layout/create_account.xml" />
+        <option value="$PROJECT_DIR$/res/layout/info.xml" />
+        <option value="$PROJECT_DIR$/res/menu/alternate.xml" />
         <option value="$PROJECT_DIR$/src/com/cellphones/mobilelunchmeet/GPSActivity.java" />
-        <option value="$PROJECT_DIR$/src/com/cellphones/mobilelunchmeet/Overlays.java" />
+        <option value="$PROJECT_DIR$/res/values/strings.xml" />
+        <option value="$PROJECT_DIR$/src/com/cellphones/mobilelunchmeet/AboutActivity.java" />
+        <option value="$PROJECT_DIR$/res/layout/about.xml" />
       </list>
     </option>
   </component>
@@ -217,7 +140,7 @@
     <treeState />
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="-1374" />
+    <option name="x" value="-8" />
     <option name="y" value="-5" />
     <option name="width" value="1382" />
     <option name="height" value="781" />
@@ -248,7 +171,7 @@
       <sortByType />
     </navigator>
     <panes>
-      <pane id="Scope" />
+      <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -316,6 +239,10 @@
               <option name="myItemId" value="res" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="menu" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
           </PATH>
           <PATH>
             <PATH_ELEMENT>
@@ -345,13 +272,63 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
+              <option name="myItemId" value="res" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="mobileLunchMeet" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="mobileLunchMeet" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="res" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="drawable-hdpi" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="mobileLunchMeet" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="mobileLunchMeet" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="res" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="drawable" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="mobileLunchMeet" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="mobileLunchMeet" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
               <option name="myItemId" value="gen" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
         </subPane>
       </pane>
-      <pane id="PackagesPane" />
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -367,8 +344,8 @@
     <property name="GoToClass.toSaveIncludeLibraries" value="false" />
     <property name="MemberChooser.showClasses" value="true" />
     <property name="GoToClass.includeLibraries" value="false" />
-    <property name="options.searchVisible" value="true" />
     <property name="options.splitter.details.proportions" value="0.2" />
+    <property name="options.searchVisible" value="true" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
@@ -425,6 +402,24 @@
         <option name="Maven.BeforeRunTask" enabled="false" />
       </method>
     </configuration>
+    <configuration default="true" type="Applet" factoryName="Applet">
+      <module name="" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="HTML_FILE_NAME" />
+      <option name="HTML_USED" value="false" />
+      <option name="WIDTH" value="400" />
+      <option name="HEIGHT" value="300" />
+      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
+      <option name="VM_PARAMETERS" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <method>
+        <option name="AntTarget" enabled="false" />
+        <option name="BuildArtifacts" enabled="false" />
+        <option name="Make" enabled="true" />
+        <option name="Maven.BeforeRunTask" enabled="false" />
+      </method>
+    </configuration>
     <configuration default="true" type="TestNG" factoryName="TestNG">
       <module name="" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
@@ -450,24 +445,6 @@
       <envs />
       <properties />
       <listeners />
-      <method>
-        <option name="AntTarget" enabled="false" />
-        <option name="BuildArtifacts" enabled="false" />
-        <option name="Make" enabled="true" />
-        <option name="Maven.BeforeRunTask" enabled="false" />
-      </method>
-    </configuration>
-    <configuration default="true" type="Applet" factoryName="Applet">
-      <module name="" />
-      <option name="MAIN_CLASS_NAME" />
-      <option name="HTML_FILE_NAME" />
-      <option name="HTML_USED" value="false" />
-      <option name="WIDTH" value="400" />
-      <option name="HEIGHT" value="300" />
-      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
-      <option name="VM_PARAMETERS" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
       <method>
         <option name="AntTarget" enabled="false" />
         <option name="BuildArtifacts" enabled="false" />
@@ -597,28 +574,28 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-1374" y="-5" width="1382" height="781" extended-state="6" />
-    <editor active="true" />
+    <frame x="-8" y="-5" width="1382" height="781" extended-state="6" />
+    <editor active="false" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32776934" sideWeight="0.6709265" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3290735" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.67171717" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.399361" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3258786" sideWeight="0.5007587" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.34664536" sideWeight="0.49772382" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3258786" sideWeight="0.4939302" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.22644377" sideWeight="0.21717171" order="1" side_tool="true" content_ui="tabs" />
-      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32959402" sideWeight="0.67171717" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32928678" sideWeight="0.6709265" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39969605" sideWeight="0.67171717" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.23823975" sideWeight="0.6709265" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3290735" sideWeight="0.4939302" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Android Logcat" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.34664536" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3290735" sideWeight="0.4908953" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Android Logcat" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.34664536" sideWeight="0.4969651" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3290735" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
     </layout>
@@ -679,139 +656,107 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/AndroidManifest.xml">
+    <entry file="file://$PROJECT_DIR$/src/com/cellphones/mobilelunchmeet/Overlays.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="10" column="38" selection-start="447" selection-end="447" vertical-scroll-proportion="0.0" />
+        <state line="94" column="25" selection-start="3460" selection-end="3460" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/cellphones/mobilelunchmeet/AboutActivity.java">
+    <entry file="file://$PROJECT_DIR$/res/drawable/progress.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="9" column="13" selection-start="231" selection-end="231" vertical-scroll-proportion="0.16085792">
-          <folding />
-        </state>
+        <state line="16" column="59" selection-start="560" selection-end="560" vertical-scroll-proportion="-0.28686327" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/cellphones/mobilelunchmeet/CreateAccountActivity.java">
+    <entry file="file://$PROJECT_DIR$/res/layout/map.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="164" column="0" selection-start="5914" selection-end="5914" vertical-scroll-proportion="0.041666668">
-          <folding />
-        </state>
+        <state line="9" column="56" selection-start="393" selection-end="393" vertical-scroll-proportion="0.23316061" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/cellphones/mobilelunchmeet/SplashActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="13" column="13" selection-start="336" selection-end="336" vertical-scroll-proportion="0.20833333">
+        <state line="15" column="45" selection-start="446" selection-end="446" vertical-scroll-proportion="0.0" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/res/layout/info.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="57" column="28" selection-start="2147" selection-end="2147" vertical-scroll-proportion="0.6632124">
           <folding />
         </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/res/layout/create_account.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="64" column="34" selection-start="2468" selection-end="2468" vertical-scroll-proportion="0.025">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/res/menu/alternate.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="8" column="7" selection-start="387" selection-end="387" vertical-scroll-proportion="0.33333334">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/res/layout/login.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="46" column="63" selection-start="1709" selection-end="1709" vertical-scroll-proportion="0.41878173">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/AndroidManifest.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="10" column="38" selection-start="447" selection-end="447" vertical-scroll-proportion="0.038071066">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/cellphones/mobilelunchmeet/Server.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/cellphones/mobilelunchmeet/LoginActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="18" column="13" selection-start="524" selection-end="537" vertical-scroll-proportion="-5.7083335">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/cellphones/mobilelunchmeet/InfoActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="152" column="78" selection-start="4809" selection-end="4809" vertical-scroll-proportion="0.6062992">
+        <state line="82" column="31" selection-start="2322" selection-end="2322" vertical-scroll-proportion="2.2834647">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/res/values/strings.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="32" column="2" selection-start="1559" selection-end="1559" vertical-scroll-proportion="0.0">
+        <state line="5" column="176" selection-start="434" selection-end="434" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/cellphones/mobilelunchmeet/BalloonOverlayView.java">
+    <entry file="file://$PROJECT_DIR$/res/layout/splash.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="13" column="0" selection-start="377" selection-end="377" vertical-scroll-proportion="0.075">
+        <state line="4" column="42" selection-start="227" selection-end="227" vertical-scroll-proportion="0.03937008">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/res/layout/balloon_overlay.xml">
+    <entry file="file://$PROJECT_DIR$/src/com/cellphones/mobilelunchmeet/AboutActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="52" column="59" selection-start="2272" selection-end="2272" vertical-scroll-proportion="1.4311926">
+        <state line="14" column="0" selection-start="369" selection-end="369" vertical-scroll-proportion="0.23622048">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/res/layout/map.xml">
+    <entry file="file://$PROJECT_DIR$/res/layout/about.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="9" column="56" selection-start="393" selection-end="393" vertical-scroll-proportion="0.0">
+        <state line="27" column="26" selection-start="910" selection-end="910" vertical-scroll-proportion="0.7191601">
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/cellphones/mobilelunchmeet/OnSingleTapListener.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="11" selection-start="11" selection-end="11" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/cellphones/mobilelunchmeet/TapControlledMapView.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="14" column="20" selection-start="465" selection-end="465" vertical-scroll-proportion="-1.4248705">
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/cellphones/mobilelunchmeet/BalloonItemizedOverlay.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="283" column="83" selection-start="9320" selection-end="9320" vertical-scroll-proportion="2.5067024">
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/cellphones/mobilelunchmeet/Server.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="257" column="0" selection-start="9517" selection-end="9517" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/cellphones/mobilelunchmeet/GPSActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="523" column="26" selection-start="18605" selection-end="18605" vertical-scroll-proportion="0.0">
+        <state line="435" column="54" selection-start="14970" selection-end="14970" vertical-scroll-proportion="1.4416244">
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="class#3029:3337" expanded="false" />
-            <element signature="class#GeoUpdateHandler#0;class#GPSActivity#0" expanded="false" />
-            <element signature="method#getLocations#0;class#GPSActivity#0" expanded="false" />
-            <element signature="method#createMarker#0;class#GPSActivity#0" expanded="false" />
-            <element signature="method#createMarker#1;class#GPSActivity#0" expanded="false" />
-            <element signature="method#onResume#0;class#GPSActivity#0" expanded="false" />
-            <element signature="method#onPause#0;class#GPSActivity#0" expanded="false" />
-            <element signature="method#onDestroy#0;class#GPSActivity#0" expanded="false" />
-            <element signature="method#onActivityResult#0;class#GPSActivity#0" expanded="false" />
-            <element signature="method#onConfigurationChanged#0;class#GPSActivity#0" expanded="false" />
-            <element signature="method#onCreateOptionsMenu#0;class#GPSActivity#0" expanded="false" />
-            <element signature="method#onOptionsItemSelected#0;class#GPSActivity#0" expanded="false" />
-            <element signature="method#login#0;class#GPSActivity#0" expanded="false" />
-            <element signature="method#createNotification#0;class#GPSActivity#0" expanded="false" />
-            <element signature="method#matchNotification#0;class#GPSActivity#0" expanded="false" />
-            <element signature="method#rejectMatchNotification#0;class#GPSActivity#0" expanded="false" />
-            <element signature="method#initButtons#0;class#GPSActivity#0" expanded="false" />
-            <element signature="method#createButtonListeners#0;class#GPSActivity#0" expanded="false" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/cellphones/mobilelunchmeet/Overlays.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="74" column="81" selection-start="2615" selection-end="2615" vertical-scroll-proportion="0.62992126">
-          <folding />
         </state>
       </provider>
     </entry>

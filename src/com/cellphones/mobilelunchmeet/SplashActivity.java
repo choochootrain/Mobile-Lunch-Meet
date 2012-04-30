@@ -10,9 +10,10 @@ import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.view.View;
 import android.view.MotionEvent;
+import android.widget.ProgressBar;
 
 public class SplashActivity extends Activity{
-	private static final int splash_time = 5000;
+	private static final int splash_time = 3500;
 	private boolean alive;
 	private Activity this_reference;
 	private View splashView;

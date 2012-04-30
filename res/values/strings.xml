@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-  <string name="app_name">Mobile Lunch Meet</string>
+  <string name="app_name">Lunchee</string>
   <string name="hello_world">Sup bro this is a Hello World thing and stuff put da GPS \'n\' map shit right hurr</string>
   <string name="about_name">About</string>
-  <string name="about_text">K so this is where we put the about stuff and stuff.</string>
+  <string name="about_text">Lunchee is an app that helps you find someone interesting to have lunch with. Just tap the match button to be randomly matched with a person nearby.</string>
   <string name="get_json_name">Get JSON Data</string>
-  <string name="gps_name">Mobile Lunch Meet</string>
-  <string name="login_name">Mobile Lunch Meet</string>
+  <string name="gps_name">Lunchee</string>
+  <string name="login_name">Lunchee</string>
   <string name="create_account_name">Create Account</string>
   <string name="create_account_button">Create an account?</string>
   <string name="login_button">Login</string>
   <string name="quit_button">Quit</string>
   <string name="login_text">login</string>
   <string name="password_text">password</string>
-  <string name="title_text">Mobile Lunch Meet</string>
+  <string name="title_text">Lunchee</string>
   <string name="loading_text">Loading...</string>
   <string name="logout_button">Logout</string>
   <string name="repeat_password_text">repeat password</string>
@@ -26,9 +26,9 @@
       <item>Senior</item>
   </string-array>
   <string name="c_create_account_button">Create Account</string>
-  <string name="splash_name">Splash Screen</string>
+  <string name="splash_name">Lunchee</string>
   <string name="c_name_text">name</string>
-  <string name="info_button">Info</string>
+  <string name="info_button">Settings</string>
   <string name="save_info_button">Save Info</string>
   <string name="return_button">Return</string>
   <string name="locate_button">Locate</string>

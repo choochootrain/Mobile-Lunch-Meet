@@ -17,7 +17,11 @@ Lunch::Application.routes.draw do
   match "getlocation/:id" => "users#getloc"
 
   match "match/:id" => "users#closestMatch"
+  match "match/:one/:two" => "users#chooseMatch"
   match "partner/:id" => "users#partner"
+
+  match "accept/:one/:two" => "users#accept"
+  match "reject/:one/:two" => "users#reject"
 
   match "changeinfo/:id/:name/:year" => "users#changeinfo"
 

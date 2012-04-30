@@ -25,8 +25,12 @@
       <item>Junior</item>
       <item>Senior</item>
   </string-array>
-      <string name="c_create_account_button">Create Account</string>
+  <string name="c_create_account_button">Create Account</string>
   <string name="splash_name">Splash Screen</string>
   <string name="c_name_text">name</string>
   <string name="info_button">Info</string>
+  <string name="save_info_button">Save Info</string>
+  <string name="return_button">Return</string>
+  <string name="locate_button">Locate</string>
+  <string name="match_button">Match</string>
 </resources>

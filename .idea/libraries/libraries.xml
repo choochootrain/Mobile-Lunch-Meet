@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="libraries">
+    <CLASSES />
+    <JAVADOC />
+    <SOURCES>
+      <root url="file://$PROJECT_DIR$/libs/android-mapviewballoons/android-mapviewballoons-example/src" />
+      <root url="file://$PROJECT_DIR$/libs/android-mapviewballoons/android-mapviewballoons/src" />
+    </SOURCES>
+  </library>
+</component>

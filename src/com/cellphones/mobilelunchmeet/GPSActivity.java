@@ -117,6 +117,7 @@ public class GPSActivity extends MapActivity {
 
                                     public void onClick(DialogInterface dialog, int which) {
                                         Toast.makeText(GPSActivity.this, "You have accepted the match.", Toast.LENGTH_LONG).show();
+                                        Server.accept(GPSActivity.this.id, GPSActivity.this.match);
                                         showDirections(GPSActivity.this.match);
                                     }
                                 }
@@ -188,8 +189,10 @@ public class GPSActivity extends MapActivity {
     }
 
     public void waitForResponse(int otherid) {
+        Integer [] stuff = new Integer[1];
+        stuff[0] = new Integer(otherid);
         WaitForResponseTask task = new WaitForResponseTask(this);
-        task.execute();
+        task.execute(stuff);
     }
 
     public class GeoUpdateHandler implements LocationListener {
@@ -433,7 +436,7 @@ public class GPSActivity extends MapActivity {
     	nManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
     	
     	int icon = R.drawable.ic_launcher;
-    	CharSequence tickerText = "Logged onto Lunchee";
+    	CharSequence tickerText = "Logged onto Lunchee";                                                                                                                                                                                                                                                                                                      ";
     	long when = System.currentTimeMillis();  	
     	notification = new Notification(icon, tickerText, when);
     

@@ -255,6 +255,24 @@ public class Server {
     }
 
     public static void reject(int id, int match) {
+        try {
+            HttpClient client = new DefaultHttpClient();
+            HttpGet request = new HttpGet();
+            request.setURI(new URI("http://vivid-ocean-9711.heroku.com/reject/" + id + "/" + match + ".json"));
+            String content = client.execute(request, new BasicResponseHandler());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
+    public static void accept(int id, int match) {
+        try {
+            HttpClient client = new DefaultHttpClient();
+            HttpGet request = new HttpGet();
+            request.setURI(new URI("http://vivid-ocean-9711.heroku.com/accept/" + id + "/" + match + ".json"));
+            String content = client.execute(request, new BasicResponseHandler());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

@@ -98,10 +98,10 @@ public class CreateAccountActivity extends Activity{
     				String passwordText = c_passwordText.getText().toString();
     				String repeatPasswordText = c_repeatPasswordText.getText().toString();
     				
-    				if(loginText.isEmpty()
-    						|| nameText.isEmpty()
-    						|| passwordText.isEmpty()
-    						|| repeatPasswordText.isEmpty()){
+    				if(loginText.equals("")
+    						|| nameText.equals("")
+    						|| passwordText.equals("")
+    						|| repeatPasswordText.equals("")){
     					//Toast.makeText(this_reference, "Not all required fields completed", Toast.LENGTH_LONG).show();
     					c_errorText.setText("Not all fields complete");
     					return false;

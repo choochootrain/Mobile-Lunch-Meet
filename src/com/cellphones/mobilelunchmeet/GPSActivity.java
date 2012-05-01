@@ -36,17 +36,17 @@ public class GPSActivity extends MapActivity {
     protected int id;
     protected int match;
     private boolean locationCentered;
+    private Thread partnerUpdate;
+    private WaitForResponseTask task;
 
     private boolean logged_in;
-    
+
     private Activity this_reference;
     private Button locateButton;
     private Button matchButton;
     
     private SharedPreferences settings;
     private SharedPreferences.Editor editor;
-
-    private Handler handler;
     
     private NotificationManager nManager;
     private Notification notification;
@@ -57,13 +57,13 @@ public class GPSActivity extends MapActivity {
     private static final int LOGIN_REQUEST_CODE = 1;
     private static final int SPLASH_REQUEST_CODE = 3;
     private static final int CHANGE_INFO_REQUEST_CODE = 4;
+    protected boolean waiting = false;
+    private int result;
 
     public void onCreate(Bundle bundle) {
         super.onCreate(bundle);
+        task = new WaitForResponseTask(this);
         this_reference = this;
-        
-        //inflater = getLayoutInflater();
-        
         setContentView(R.layout.map);
         
         Intent i = new Intent(GPSActivity.this, SplashActivity.class);
@@ -79,15 +79,15 @@ public class GPSActivity extends MapActivity {
         mapController.setZoom(17);
        
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000,
-                10, (LocationListener) new GeoUpdateHandler());
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000,
+                0, (LocationListener) new GeoUpdateHandler());
 
         previous = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
         myLocationOverlay = new MyLocationOverlay(this, mapView);
         mapView.getOverlays().add(myLocationOverlay);
         myLocationOverlay.enableMyLocation();
         myLocationOverlay.runOnFirstFix(new Runnable() {
-            //@Override
+            @Override
             public void run() {
                 Location me = myLocationOverlay.getLastFix();
                 mapController.animateTo(myLocationOverlay.getMyLocation());
@@ -95,50 +95,52 @@ public class GPSActivity extends MapActivity {
             }
         });
 
-        Thread partnerUpdate = new Thread() {
+        partnerUpdate = new Thread() {
             @Override
             public void run() {
                 while (true) {
-                    GPSActivity.this.match = Server.partner(GPSActivity.this.id);
-                    if (GPSActivity.this.match > 0) {//you were matched
-                        GPSActivity.this.runOnUiThread(new Runnable() {
-                            public void run() {
-                                final class CancelOnClickListener implements
-                                        DialogInterface.OnClickListener {
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        GPSActivity.this.rejectMatchNotification();
-                                        Server.reject(GPSActivity.this.id, GPSActivity.this.match);
-                                        GPSActivity.this.match = -1;
+                    if(!GPSActivity.this.waiting) {
+                        GPSActivity.this.match = Server.partner(GPSActivity.this.id);
+                        if (GPSActivity.this.match > 0) {//you were matched
+                            GPSActivity.this.runOnUiThread(new Runnable() {
+                                public void run() {
+                                    final class CancelOnClickListener implements
+                                            DialogInterface.OnClickListener {
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            GPSActivity.this.rejectMatchNotification();
+                                            Server.reject(GPSActivity.this.id, GPSActivity.this.match);
+                                            GPSActivity.this.match = -1;
+                                        }
                                     }
-                                }
 
-                                final class OkOnClickListener implements
-                                        DialogInterface.OnClickListener {
+                                    final class OkOnClickListener implements
+                                            DialogInterface.OnClickListener {
 
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        Toast.makeText(GPSActivity.this, "You have accepted the match.", Toast.LENGTH_LONG).show();
-                                        Server.accept(GPSActivity.this.id, GPSActivity.this.match);
-                                        showDirections(GPSActivity.this.match);
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            GPSActivity.this.waiting = true;
+                                            Toast.makeText(GPSActivity.this, "You have accepted the match.", Toast.LENGTH_LONG).show();
+                                            Server.accept(GPSActivity.this.id, GPSActivity.this.match);
+                                            showDirections(GPSActivity.this.match);
+                                        }
                                     }
+
+                                    GPSActivity.this.matchNotification();
+
+                                    AlertDialog.Builder builder = new AlertDialog.Builder(GPSActivity.this);
+                                    builder.setMessage(Server.getName(GPSActivity.this.match) + " would like to eat lunch with you.");
+                                    builder.setCancelable(true);
+                                    builder.setPositiveButton("Accept", new OkOnClickListener());
+                                    builder.setNegativeButton("Reject", new CancelOnClickListener());
+                                    AlertDialog dialog = builder.create();
+                                    dialog.show();
                                 }
-
-                                GPSActivity.this.matchNotification();
-
-                                AlertDialog.Builder builder = new AlertDialog.Builder(GPSActivity.this);
-                                builder.setMessage(Server.getName(GPSActivity.this.match) + " would like to eat lunch with you.");
-                                builder.setCancelable(true);
-                                builder.setPositiveButton("Accept", new OkOnClickListener());
-                                builder.setNegativeButton("Reject", new CancelOnClickListener());
-                                AlertDialog dialog = builder.create();
-                                dialog.show();
-                            }
-                        });
-                        break;
-                    }
-                    try {
-                        Thread.sleep(5000);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
+                            });
+                        }
+                        try {
+                            Thread.sleep(5000);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
                     }
                 }
             }
@@ -148,26 +150,10 @@ public class GPSActivity extends MapActivity {
 
         initButtons();
         createButtonListeners();
-        
-        handler = new Handler();
-
-        Runnable refreshTask = new Runnable()
-        {
-            public void run()
-            {
-                handler.removeCallbacks(this);
-
-                mapView.invalidate();
-                mapView.postInvalidate();
-
-                handler.postDelayed(this, 1000);
-
-            }
-        };
-        refreshTask.run();
     }
 
     private void showDirections(int id) {
+        Log.e(TAG, "Directions to " + id);
         GeoPoint p = Server.getLocation(id);
         double end_lat = p.getLatitudeE6()/1000000.0;
         double end_long = p.getLongitudeE6()/1000000.0;
@@ -189,10 +175,19 @@ public class GPSActivity extends MapActivity {
     }
 
     public void waitForResponse(int otherid) {
+        match = otherid;
         Integer [] stuff = new Integer[1];
         stuff[0] = new Integer(otherid);
-        WaitForResponseTask task = new WaitForResponseTask(this);
+        task = new WaitForResponseTask(this);
         task.execute(stuff);
+        if (result == -2 && match > 0) {
+            showDirections(match);
+            waiting = true;
+        } else {
+            match = 0;
+            waiting = false;
+            result = 0;
+        }
     }
 
     public class GeoUpdateHandler implements LocationListener {
@@ -254,24 +249,6 @@ public class GPSActivity extends MapActivity {
             e.printStackTrace();
         }
         mapView.postInvalidate();
-    }
-
-    private void createMarker() {
-        GeoPoint p = mapView.getMapCenter();
-        OverlayItem overlayitem = new OverlayItem(p, "", "");
-        itemizedoverlay.addOverlay(overlayitem);
-        if (itemizedoverlay.size() > 0) {
-            mapView.getOverlays().add(itemizedoverlay);
-        }
-    }
-
-    private void createMarker(Location location, String title, String snippet) {
-        GeoPoint p = new GeoPoint((int)(1E6 * location.getLatitude()),(int)(1E6 * location.getLongitude()));
-        OverlayItem overlayitem = new OverlayItem(p, title, snippet);
-        itemizedoverlay.addOverlay(overlayitem);
-        if (itemizedoverlay.size() > 0) {
-            mapView.getOverlays().add(itemizedoverlay);
-        }
     }
 
     @Override
@@ -373,8 +350,11 @@ public class GPSActivity extends MapActivity {
 				// switch to login screen
 				//super.finish();
 				logged_in = false;
-				
+				Server.reset(id);
+                Server.reset(match);
 				Server.logout(settings.getString("login", "").toLowerCase());
+                waiting = false;
+
 				nManager.cancelAll();
 				Toast.makeText(this, settings.getString("login", "") + " logged out", Toast.LENGTH_SHORT).show();
 				
@@ -511,8 +491,10 @@ public class GPSActivity extends MapActivity {
     		matchButton.setOnClickListener(new View.OnClickListener(){
     			//@Override
     			public void onClick(View view){
-                    int id = match();
-                    Toast.makeText(GPSActivity.this, "" + id, Toast.LENGTH_LONG).show();
+                    int otherid = match();
+                    GPSActivity.this.waiting = true;
+                    Toast.makeText(GPSActivity.this, "You have been matched to " + Server.getName(otherid) + ". Waiting for " + Server.getName(otherid) + " to respond...start polling here", Toast.LENGTH_LONG).show();
+                    waitForResponse(otherid);
     			}
     		});
     	}catch(Exception e){
@@ -523,38 +505,15 @@ public class GPSActivity extends MapActivity {
     }
 
     public int match() {
-        JSONObject match = Server.match(id);
-
-        try {
-            Object o = match.get("location");
-            if (o == null)
-                throw new JSONException("No match was found");
-            JSONObject location = (JSONObject)o;
-            int loc_id = location.getInt("user_id");
-            return loc_id;
-        } catch (JSONException e) {
-            e.printStackTrace();
-            Toast.makeText(this, "Brb something broke.", Toast.LENGTH_LONG).show();
-        }
-        return -1;
+        Server.match(id);
+        match = Server.partner(id);
+        return match;
     }
 
-    public int matchTo(int otherid) {
-        JSONObject match = Server.match(id, otherid);
+    public void matchTo(int otherid) {
+        Server.match(id, otherid);
         Log.e(TAG, id + " maches to " + otherid);
-
-        try {
-            Object o = match.get("location");
-            if (o == null)
-                throw new JSONException("No match was found");
-            JSONObject location = (JSONObject)o;
-            int loc_id = location.getInt("user_id");
-            return loc_id;
-        } catch (JSONException e) {
-            e.printStackTrace();
-            Toast.makeText(this, "Brb something broke.", Toast.LENGTH_LONG).show();
-        }
-        return -1;
+        match = otherid;
     }
 
     private class WaitForResponseTask extends AsyncTask<Integer, Integer, Integer> {
@@ -598,7 +557,7 @@ public class GPSActivity extends MapActivity {
                 dialog.dismiss();
             }
 
-            activity.match = result;
+            activity.result = result;
         }
     }
 }

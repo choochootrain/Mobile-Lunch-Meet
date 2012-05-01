@@ -88,6 +88,7 @@ public class Server {
             String address = "http://vivid-ocean-9711.heroku.com/logout/" + username + ".json";
             request.setURI(new URI(address.replace(" ", "%20")));
             client.execute(request, new BasicResponseHandler());
+            reset(getId(username));
             return true;
         } catch (Exception e) {
             e.printStackTrace();
@@ -170,8 +171,10 @@ public class Server {
     public static GeoPoint getLocation(int id) {
         if (!points.containsKey(id))
             populateLocations();
-        if (!points.containsKey(id))
+        if (!points.containsKey(id)) {
+            Log.e("Server", "No location for " + id);
             return null;
+        }
         else
             return points.get(id);
     }
@@ -195,17 +198,17 @@ public class Server {
         }
     }
 
-    public static JSONObject match(int id) {
+    public static void match(int id) {
         try {
             HttpClient client = new DefaultHttpClient();
             HttpGet request = new HttpGet();
             request.setURI(new URI("http://vivid-ocean-9711.heroku.com/match/" + id + ".json"));
             String content = client.execute(request, new BasicResponseHandler());
-            return new JSONObject(content);
+            Log.e("Server", "Match response: " + content);
         } catch (Exception e) {
             e.printStackTrace();
+            Log.e("match", "failed");
         }
-        return null;
     }
 
     public static int partner(int id) {
@@ -241,17 +244,17 @@ public class Server {
             return ids.get(name);
     }
 
-    public static JSONObject match(int id, int otherid) {
+    public static void match(int id, int otherid) {
         try {
             HttpClient client = new DefaultHttpClient();
             HttpGet request = new HttpGet();
             request.setURI(new URI("http://vivid-ocean-9711.heroku.com/match/" + id + "/" + otherid + ".json"));
             String content = client.execute(request, new BasicResponseHandler());
-            return new JSONObject(content);
+            Log.e("Server", "Match2 response: " + content);
         } catch (Exception e) {
             e.printStackTrace();
+            Log.e("match2", "failed");
         }
-        return null;
     }
 
     public static void reject(int id, int match) {
@@ -270,6 +273,17 @@ public class Server {
             HttpClient client = new DefaultHttpClient();
             HttpGet request = new HttpGet();
             request.setURI(new URI("http://vivid-ocean-9711.heroku.com/accept/" + id + "/" + match + ".json"));
+            String content = client.execute(request, new BasicResponseHandler());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void reset(int id) {
+        try {
+            HttpClient client = new DefaultHttpClient();
+            HttpGet request = new HttpGet();
+            request.setURI(new URI("http://vivid-ocean-9711.heroku.com/reset/" + id + ".json"));
             String content = client.execute(request, new BasicResponseHandler());
         } catch (Exception e) {
             e.printStackTrace();

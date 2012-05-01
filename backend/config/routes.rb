@@ -22,6 +22,7 @@ Lunch::Application.routes.draw do
 
   match "accept/:one/:two" => "users#accept"
   match "reject/:one/:two" => "users#reject"
+  match "reset/:id" => "users#reset"
 
   match "changeinfo/:id/:name/:year" => "users#changeinfo"
 

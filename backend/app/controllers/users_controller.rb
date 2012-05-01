@@ -1,5 +1,20 @@
 class UsersController < ApplicationController
 
+  def reset
+    user = User.find_by_id(params[:id])
+    response = 0
+    
+    if !user.nil?
+      user.partner = 0
+      user.save
+      response = 1
+    end
+  
+    respond_to do |format|
+      format.json { render :json => response }
+    end
+  end
+
   def accept
     user1 = User.find_by_id(params[:one])
     user2 = User.find_by_id(params[:two])
@@ -7,7 +22,7 @@ class UsersController < ApplicationController
     loc2 = Location.find_by_user_id(params[:two])
     response = 0
 
-    if !user1.nil? and !loc1.nil? and !user2.nil? and !loc2.nil? and user1.partner == 0 and user2.partner == 0
+    if !user1.nil? and !loc1.nil? and !user2.nil? and !loc2.nil?
       user1.partner = -2 
       user2.partner = -2
       user1.save 
@@ -27,7 +42,7 @@ class UsersController < ApplicationController
     loc2 = Location.find_by_user_id(params[:two])
     response = 0
 
-    if !user1.nil? and !loc1.nil? and !user2.nil? and !loc2.nil? and user1.partner == 0 and user2.partner == 0
+    if !user1.nil? and !loc1.nil? and !user2.nil? and !loc2.nil?
       user1.partner = 0 
       user2.partner = 0 
       user1.save 

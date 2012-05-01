@@ -2,6 +2,7 @@ package com.cellphones.mobilelunchmeet;
 
 
 import android.content.Context;
+import android.content.res.Configuration;
 import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
@@ -9,9 +10,10 @@ import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.view.View;
 import android.view.MotionEvent;
+import android.widget.ProgressBar;
 
 public class SplashActivity extends Activity{
-	private static final int splash_time = 5000;
+	private static final int splash_time = 3500;
 	private boolean alive;
 	private Activity this_reference;
 	private View splashView;
@@ -38,6 +40,7 @@ public class SplashActivity extends Activity{
 		        } catch(InterruptedException e) {
 		            // do nothing
 		        } finally{
+		        	this_reference.setResult(1);
 		            this_reference.finish();
 		        }
 			}
@@ -54,8 +57,14 @@ public class SplashActivity extends Activity{
 	}
 	
 	@Override
+    public void onConfigurationChanged(Configuration newConfig){
+    	super.onConfigurationChanged(newConfig);
+    }
+	
+	@Override
 	protected void onDestroy(){
 		super.onDestroy();
 		((ViewGroup)splashView.getParent()).removeView(splashView);
+		//Log.d("SplashActivity.onDestroy()", "splash activity destruction callback made");
 	}
 }

@@ -1,32 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent" >
+    android:layout_height="fill_parent"
+    android:background="#222255" >
 
-    <TextView
-        android:id="@+id/splash_title_text"
+    <ImageView
+        android:id="@+id/splash_logo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
-        android:text="@string/title_text"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
-
-    <TextView
-        android:id="@+id/splash_loading_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/splash_title_text"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="40dp"
-        android:text="@string/loading_text"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
+        android:src="@drawable/full_logo" />
 
     <ProgressBar
         android:id="@+id/splash_progress_bar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/splash_loading_text"
+        android:layout_width="200dp"
+        android:layout_height="30dp"
+        android:layout_below="@+id/splash_logo"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="30dp" />
+        android:layout_marginTop="30dp"
+        android:indeterminateDrawable="@drawable/progress"
+        android:indeterminate="true"/>
+
 </RelativeLayout>

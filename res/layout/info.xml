@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#222255" >
+    
+     <TextView
+         android:id="@+id/i_name_text"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:layout_marginTop="80dp"
+         android:layout_marginLeft="50dp"
+         android:text="@string/c_name_text"
+         android:textAppearance="?android:attr/textAppearanceMedium"
+         android:textColor="#FFCC00" />
+     
+     <TextView
+        android:id="@+id/i_year_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@id/i_name_text"
+        android:layout_below="@+id/i_name_text"
+        android:layout_marginTop="27dp"
+        android:text="@string/year_text"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="#FFCC00" />
+     
+      <EditText
+        android:id="@+id/i_name_input"
+        android:layout_width="180dp"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/i_name_text"
+        android:layout_alignBottom="@+id/i_name_text"
+        android:layout_marginLeft="15dp"
+        android:inputType="text" />
+      
+      <Spinner
+         android:id="@+id/i_spinner"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:layout_alignBottom="@+id/i_year_text"
+         android:layout_alignLeft="@+id/i_name_input"
+         android:prompt="@string/year_prompt" />
+      
+
+       <Button
+           android:id="@+id/i_save_info_button"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:layout_below="@+id/i_year_text"
+           android:layout_centerHorizontal="true"
+           android:layout_marginTop="30dp"
+           android:text="@string/save_info_button" />
+       
+
+       <Button
+           android:id="@+id/i_return_button"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:layout_below="@+id/i_save_info_button"
+           android:layout_centerHorizontal="true"
+           android:layout_marginTop="26dp"
+           android:text="@string/return_button" />
+     
+</RelativeLayout>
